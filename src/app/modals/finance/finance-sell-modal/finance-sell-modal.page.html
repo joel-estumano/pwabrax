@@ -1,0 +1,83 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full h-full py-[3rem] px-6 gap-5 overflow-y-auto">
+    <h1 class="text-[0.9rem] font-bold w-full text-center">Nova venda</h1>
+
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Item vendido*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="select_product($event)" class="w-full"
+          placeholder="Informe o produto">
+          <!-- <ng-container *ngFor="let item of products.value"> -->
+          <ng-container *ngFor="let item of combinedProducts">
+            <ion-select-option value="{{item.id}}">
+              {{item.title || item.type}}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Valor de venda*</ion-label>
+        <ion-input [formControl]="$any(form).get('value')" type="number" placeholder="0,00" required></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Valor final de venda*</ion-label>
+        <ion-input [formControl]="$any(form).get('final_value')" type="number" placeholder="0,00" required></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Forma de Pagamento*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('payment_method')"
+          class="w-full" placeholder="Selecione" required>
+          <ng-container>
+            <ng-container *ngFor="let item of payments.value">
+              <ion-select-option value="{{ item.title }}">
+                {{ item.title }}
+              </ion-select-option>
+            </ng-container>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Cliente*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" *ngIf="clients.length > 0"
+          (ionChange)="select_client($event)" class="w-full" placeholder="Selecione um cliente existente" required>
+          <ng-container *ngFor="let item of clients">
+            <ion-select-option value="{{item.id}}">
+              {{item.nome}}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Código</ion-label>
+        <ion-input [formControl]="$any(form).get('code')" type="text"
+          placeholder="Informe o cliente para completar o código" readonly></ion-input>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Profissional*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" *ngIf="responsibles.length > 0"
+          (ionChange)="select_responsible($event)" class="w-full" placeholder="Selecione um profissional">
+          <ng-container *ngFor="let item of responsibles">
+            <ion-select-option value="{{item.id}}">
+              {{item.nome}}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4">
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" fill="outline" (click)="dismiss()">
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" (click)="save()">
+        <ion-label class="capitalize" color="light">Lançar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

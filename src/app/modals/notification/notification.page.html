@@ -1,0 +1,23 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full h-full py-4 px-8">
+    <h1 class="text-[0.8rem] font-bold w-[full] text-center">
+      Gostaria de adicionar um lembrete?
+    </h1>
+    <h2 class="text-[0.6rem] w-full mt-4 text-center">
+      Caso deseje um lembrete, selecione um dia e horário para ser lembrado.
+    </h2>
+    <div class="flex items-center w-full">
+      <app-date-picker class="w-full" label="Data" type="date-time" [date]="date"
+        (dateChange)="dateChange($event)"></app-date-picker>
+    </div>
+    <div class="flex items-center w-full flex-1">
+      <ion-button class="text-white font-bold text-[0.7rem] text-center w-1/2" (click)="confirm()" expand="block">
+        Sim
+      </ion-button>
+      <ion-button class="text-primary font-bold text-[0.7rem] text-center w-1/2" fill="outline" (click)="cancel()"
+        expand="block">
+        Não
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

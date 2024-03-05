@@ -1,0 +1,58 @@
+<div class="flex w-full justify-between">
+  <div class="flex w-full">
+    <ng-container *ngFor="let item of items; let i = index">
+      <div (click)="item.disabled ? null : click(i)" [ngClass]="[
+          item.selected ? 'bg-primaryLight' : 'bg-secondaryLight',
+          item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+          item.hidden ? 'hidden' : '',
+          user.value
+            ? item.permission && item.permission.length > 0
+              ? item.permission.includes(user.value.level)
+                ? ''
+                : 'hidden'
+              : ''
+            : ''
+        ]" class="min-w-[10%] tab">
+        <p>
+          {{ item.name }}
+        </p>
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngFor="let item of items">
+    <ng-container *ngFor="let option of item.options; let i = index">
+      <div (click)="click(i, active)" *ngIf="active == item.name" style="margin-right: 0" [ngClass]="[option.selected ? 'bg-primaryLight' : 'bg-secondaryLight',
+          item.name == 'Movimentações' ? 'min-w-[8%]' : 'min-w-[12%]']"
+        class="flex items-center justify-center tab cursor-pointer">
+        <p>
+          {{ option.name }}
+        </p>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <div *ngIf="filter" style="margin-right: 0"
+    class="flex items-center justify-center min-w-[15%] bg-primaryLight tab cursor-pointer" (click)="presentFilterPopover($event)">
+    <ion-button fill="clear" class="h-[0.6rem] text-[0.6rem] font-[700]" color="dark">
+      <span>Filtrar</span>
+      <ion-icon class="text-[0.9rem] ml-1" slot="end" name="options-sharp"></ion-icon>
+    </ion-button>
+    <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+      <ng-template>
+        <ion-list class="role-popover bg-neutral-300">
+          <p class="text-[0.7rem] ml-4 mt-3 mb-3 cursor-pointer flex" *ngFor="let opt of filterOpt"
+          [ngClass]="opt.disabled ? 'opacity-50' : opt.class" (click)="select(opt)">
+            <ion-icon [name]="opt.icon" class="text-[1rem] mr-2" *ngIf="opt.icon"></ion-icon>
+            {{opt.title}}
+          </p>
+        </ion-list>
+      </ng-template>
+    </ion-popover>
+  </div>
+
+  <div class="flex items-end justify-end min-w-[15%]" *ngIf="step">
+    <p class="font-bold text-[0.6rem] text-end mb-2">
+      Passo {{ stepIndex.current }} de {{ stepIndex.total }}
+    </p>
+  </div>
+</div>

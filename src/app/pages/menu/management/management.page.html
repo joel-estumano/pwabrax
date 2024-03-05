@@ -1,0 +1,84 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6 flex flex-col justify-center">
+    <app-sub-header title="Gestão"></app-sub-header>
+
+    <app-custom-tabs *ngIf="user.value" class="w-full" [items]="tabs"
+      [filter]="true" (event)="tabEvent($event.index)" (filterChoose)="onFilterChoose($event)"></app-custom-tabs>
+
+    <div *ngIf="current_tab == 'Aprovações'">
+      <app-table *ngIf="management.show && management.pages.length > 0" [headers]="management.headers"
+        [data]="management.show[management.currentPage] ? management.show[management.currentPage] : []"
+        (clickHeader)="clickHeader($event)"></app-table>
+
+      <div class="mt-4">
+        <app-pagination *ngIf="management.show && management.pages.length > 0" [currentPage]="management.currentPage"
+          [res]="management.show" [tabs]="management.pages"
+          (pageChange)="management.changePage($event)"></app-pagination>
+      </div>
+    </div>
+
+    <div class="flex items-center flex-wrap" *ngIf="current_tab == 'Relatórios'">
+      <div class="ml-2 mr-2 w-half">
+        <p class="text-[0.9rem] font-bold mt-4">Metas</p>
+        <ion-card>
+          <ion-card-content>
+            <ngx-charts-bar-vertical [view]="[400, 200]" [results]="goals" [xAxis]="true"
+              [yAxis]="true"></ngx-charts-bar-vertical>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="ml-2 mr-2 w-half">
+        <p class="text-[0.9rem] font-bold mt-4">Previsão do lucro</p>
+        <ion-card>
+          <ion-card-content>
+            <ngx-charts-bar-vertical [view]="[400, 200]" [results]="profitForecast" [xAxis]="true"
+              [yAxis]="true"></ngx-charts-bar-vertical>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="ml-2 mr-2 w-half">
+        <p class="text-[0.9rem] font-bold mt-4">Total a receber do mês</p>
+        <ion-card>
+          <ion-card-content>
+            <ngx-charts-bar-vertical [view]="[400, 200]" [results]="totalMonthlyRevenue" [xAxis]="true"
+              [yAxis]="true"></ngx-charts-bar-vertical>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="ml-2 mr-2 w-half">
+        <p class="text-[0.9rem] font-bold mt-4">Total de despesas do mês</p>
+        <ion-card>
+          <ion-card-content>
+            <ngx-charts-bar-vertical [view]="[400, 200]" [results]="totalMonthlyExpenses" [xAxis]="true"
+              [yAxis]="true"></ngx-charts-bar-vertical>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="ml-2 mr-2 w-half">
+        <p class="text-[0.9rem] font-bold mt-4">Valor da inadimplência</p>
+        <ion-card>
+          <ion-card-content>
+            <ngx-charts-bar-vertical [view]="[400, 200]" [results]="delinquencyValue" [xAxis]="true"
+              [yAxis]="true"></ngx-charts-bar-vertical>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <div class="self-center mt-5 mb-5" *ngIf="current_tab == 'Relatórios'">
+      <ion-button (click)="export_pdf()" color="light" class="action-button">
+        <ion-label class="text-primary">Exportar PDF</ion-label>
+      </ion-button>
+      <ion-button (click)="export_csv()" class="action-button">
+        <ion-label class="text-white">Exportar CSV</ion-label>
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

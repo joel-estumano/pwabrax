@@ -1,0 +1,34 @@
+<ion-app>
+  <ion-split-pane contentId="menu-content" when="md">
+    <ion-menu class="max-w-[20%]" contentId="menu-content" side="start" type="overlay">
+      <ion-content>
+        <ion-list lines="none">
+          <div class="flex items-center justify-center mt-4 mb-4">
+            <img src="../assets/images/company/logo.svg" alt="" />
+          </div>
+          <div class="flex items-center justify-center mb-8">
+            <p class="app-title">PWA</p>
+          </div>
+          <ng-container *ngIf="user.value">
+            <ng-container *ngFor="let each of menu.items">
+              <ion-item [disabled]="each.disabled" *ngIf="
+                  !each.permission ||
+                  (each.permission &&
+                    each.permission.includes(user.value.level))
+                " [ngClass]="
+                  each.selected
+                    ? 'text-primary selected rounded-s-full'
+                    : 'text-white'
+                " class="text-[0.8rem] ml-6 mt-2 cursor-pointer" (click)="menu.goTo(each)">
+                <ion-icon [ngClass]="each.selected ? 'text-primary' : 'text-white'" class="text-[0.9rem] m-0 mr-1"
+                  slot="start" name="{{ each.icon }}-outline"></ion-icon>
+                <ion-label class="m-2">{{ each.name }}</ion-label>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="menu-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "grupo-brax-dev": {
+      "hosting": {
+        "app": [
+          "grupo-brax-dev"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "grupo-brax-dev"
+  }
+}

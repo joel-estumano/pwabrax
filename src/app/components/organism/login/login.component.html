@@ -1,0 +1,31 @@
+<p class="text-center font-bold text-[1.1rem] text-primary">Login</p>
+
+<ion-item lines="none">
+  <ion-label class="text-[0.9rem] pb-6" position="stacked">E-mail</ion-label>
+  <ion-input [(ngModel)]="userLogin.email" type="email" placeholder="Ex: seunome@email.com"></ion-input>
+</ion-item>
+
+<ion-item lines="none">
+  <ion-label class="text-[0.9rem] pb-6" position="stacked">Insira uma senha</ion-label>
+  <div class="flex w-full items-center">
+    <ion-input class="w-full" [(ngModel)]="userLogin.password" [type]="showingPassword ? 'text' : 'password'"
+      placeholder="No mínimo 8 caracteres">
+    </ion-input>
+    <ion-button (click)="showPassword()" class="float-right" fill="clear" color="dark">
+      <ion-icon slot="icon-only" [name]="showingPassword ? 'eye-off' : 'eye'"></ion-icon>
+    </ion-button>
+  </div>
+</ion-item>
+
+<ion-button class="text-[0.6rem] text-black font-bold hover:bg-white" expand="block" fill="clear"
+  (click)="goToForgot()">
+  <ion-label class="lowercase"><span class="uppercase">E</span>squeci a senha</ion-label>
+</ion-button>
+
+<ion-button class="text-[0.8rem] font-bold mt-2 mb-4 h-[3rem] main-button" (click)="login()" expand="block">
+  <ion-label color="light"><span>F</span>azer Login</ion-label>
+</ion-button>
+
+<ion-button class="text-[0.8rem] font-bold h-[3rem] secondary" (click)="goToRegister()" expand="block">
+  <ion-label color="primary"><span>C</span>riar conta</ion-label>
+</ion-button>

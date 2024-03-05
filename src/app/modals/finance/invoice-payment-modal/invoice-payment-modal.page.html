@@ -1,0 +1,72 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full h-full py-[4rem] px-6 gap-6 overflow-y-auto">
+    <h1 class="text-[0.9rem] font-bold w-full text-center">
+      Pagamento de faturas
+    </h1>
+
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Fatura*</ion-label>
+        <ion-input [formControl]="$any(form).get('name')" type="text" placeholder="Informe o produto ou serviço pago"
+          required></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Valor*</ion-label>
+        <ion-input [formControl]="$any(form).get('value')" type="number" placeholder="0,00" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Código da fatura*</ion-label>
+        <ion-input [formControl]="$any(form).get('code')" type="text" placeholder="Informe o código"
+          required></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Caixa de origem*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="select_origin($event)" class="w-full"
+          placeholder="Selecione o caixa utilizado" required>
+          <ng-container *ngFor="let origin of origins">
+            <ion-select-option value="{{origin}}">
+              {{origin}}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Data de vencimento</ion-label>
+        <ion-input [formControl]="$any(form).get('due_date')" type="text" placeholder="00/00/00" (click)="pickDueDate()"
+          required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="due_date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openDueDate" (didDismiss)="pickDueDate()">
+        <ng-template>
+          <ion-datetime id="due_date" presentation="due_date" (ionChange)="setDueDate($event)"
+            [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Data de pagamento</ion-label>
+        <ion-input [formControl]="$any(form).get('payment_date')" type="text" placeholder="00/00/00"
+          (click)="pickPaymentDate()" required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="payment_date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openPaymentDate" (didDismiss)="pickPaymentDate()">
+        <ng-template>
+          <ion-datetime id="payment_date" presentation="payment_date" (ionChange)="setPaymentDate($event)"
+            [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4">
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" fill="outline" (click)="dismiss()">
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" (click)="save()">
+        <ion-label class="capitalize" color="light">Lançar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

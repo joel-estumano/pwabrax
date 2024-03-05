@@ -1,0 +1,53 @@
+<div class="flex items-center w-full h-16">
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Tipo</ion-label>
+    <ion-select cancelText="Cancelar" okText="Confirmar" [value]="" (ionChange)="selectType($event)" class="w-full"
+      placeholder="Selecione um Tipo">
+      <ng-container *ngFor="let item of stockClass.types">
+        <ion-select-option value="{{ item.nome }}">{{
+          item.nome
+          }}</ion-select-option></ng-container>
+    </ion-select>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Quantidade</ion-label>
+    <ion-select cancelText="Cancelar" okText="Confirmar" [value]="" (ionChange)="selectQtd($event)" class="w-full"
+      placeholder="Selecione a Quantidade">
+      <ng-container *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+        <ion-select-option [value]="item">{{
+          item
+          }}</ion-select-option></ng-container>
+    </ion-select>
+  </ion-item>
+</div>
+<div class="flex items-center w-full h-16">
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Categoria</ion-label>
+    <ion-select cancelText="Cancelar" okText="Confirmar" [value]="" (ionChange)="selectCategory($event)" class="w-full"
+      placeholder="Selecione uma Categoria">
+      <ng-container *ngFor="let item of categories.value">
+        <ion-select-option value="{{ item.name }}">{{
+          item.name
+          }}</ion-select-option></ng-container>
+    </ion-select>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Número da Linha</ion-label>
+    <ion-input placeholder="Informe o Número da Linha" [(ngModel)]="logistic.lineNumber" type="tel" maxlength="15"
+      mask="(**) *****-****" (keypress)="onlyNumber($event)"></ion-input>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">ICCID</ion-label>
+    <ion-input [(ngModel)]="logistic.iccid" type="text" placeholder="Informe o ICCID"></ion-input>
+  </ion-item>
+</div>
+<div class="flex items-center w-full h-16">
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Valor de Custo R$</ion-label>
+    <ion-input [(ngModel)]="logistic.cost" type="number" placeholder="Informe o Valor"></ion-input>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Nota</ion-label>
+    <ion-input [(ngModel)]="logistic.note" type="text" placeholder="Informe o Número da Nota"></ion-input>
+  </ion-item>
+</div>

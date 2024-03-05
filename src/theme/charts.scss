@@ -1,0 +1,38 @@
+// retirando legenda do gráfico
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+    display: none;
+}
+
+// retirando borda do gráfico
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-color {
+    display: none;
+}
+
+// formatando gráfico
+.advanced-pie-legend .legend-items-container .legend-items .legend-item {
+    margin-right: 0;
+    display: flex !important;
+    justify-content: space-between !important;
+    cursor: none !important;
+}
+
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
+    margin: 0 !important;
+    opacity: 1 !important;
+}
+
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-percent {
+    font-size: 14px !important;
+    opacity: 1 !important;
+    margin-left: 0 !important;
+}
+
+// esconder legendas que não serão utilizadas
+.advanced-pie-legend .total-value, .advanced-pie-legend .total-label {
+    display: none;
+}
+
+// definir tamanho das legendas menores
+.advanced-pie-legend {
+    width: 70% !important;
+}

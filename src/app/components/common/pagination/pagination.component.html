@@ -1,0 +1,21 @@
+<div class="flex items-center justify-center gap-2">
+  <ng-container *ngFor="let item of tabs; let i = index">
+    <div
+      *ngIf="i < 5"
+      [ngClass]="
+        item === currentPage + 1
+          ? 'bg-primary cursor-not-allowed'
+          : 'bg-white cursor-pointer'
+      "
+      class="border border-primary rounded h-8 w-8 flex items-center justify-center"
+      (click)="item !== currentPage + 1 && changePage(item - 1)"
+    >
+      <p
+        [ngClass]="item === currentPage + 1 ? 'text-white' : 'text-primary'"
+        class="text-[0.6rem]"
+      >
+        {{ item }}
+      </p>
+    </div>
+  </ng-container>
+</div>

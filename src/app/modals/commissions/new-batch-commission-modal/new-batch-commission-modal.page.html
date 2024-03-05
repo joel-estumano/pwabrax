@@ -1,0 +1,96 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full h-full px-4">
+    <h1 class="text-[1rem] font-bold w-full text-center">Comissão em Lote</h1>
+
+    <p class="text-[0.8rem] font-bold w-full text-left mt-6 ml-4 mb-2">Colaboradores</p>
+
+    <div class="overflow-y-auto w-full max-h-[40%]">
+      <table class="min-w-full text-left text-sm font-light">
+        <thead class="border-b bg-primaryLight text-[0.7rem]">
+          <tr>
+            <th *ngFor="let item of headers" class="px-3 py-2">{{ item }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contributor of contributors" [ngClass]="contributor.selected ? 'bg-selected' : ''"
+            (click)="select_contributor(contributor)">
+            <td class="whitespace-nowrap px-3 py-2">
+              <p class="text-[0.7rem] text-start whitespace-pre-wrap">{{contributor?.id}}</p>
+            </td>
+            <td class="whitespace-nowrap px-3 py-2">
+              <p class="text-[0.7rem] text-start whitespace-pre-wrap">{{contributor?.nome}}</p>
+            </td>
+            <td class="whitespace-nowrap px-3 py-2">
+              <p class="text-[0.7rem] text-start whitespace-pre-wrap">{{contributor?.status}}</p>
+            </td>
+            <td class="whitespace-nowrap px-3 py-2">
+              <p class="text-[0.7rem] text-start whitespace-pre-wrap">{{getDate(contributor?.createdAt)}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-[0.6rem] font-bold w-full text-left mt-2 ml-6">
+      {{selected_contributors.length}} colaboradores escolhidos.</p>
+
+
+    <p class="text-[0.8rem] font-bold w-full text-left mt-6 ml-6">Comissão por serviço</p>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Tipo*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('service_type')"
+          class="w-full" placeholder="Selecione" required>
+          <ng-container>
+            <ng-container *ngFor="let item of filterType('service')">
+              <ion-select-option [value]="item">
+                {{ item.title }}
+              </ion-select-option>
+            </ng-container>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Meta (R$)*</ion-label>
+        <ion-input [formControl]="$any(form).get('service_goal')" type="text" placeholder="R$ 0,00" mask="***,**" (keypress)="onlyNumber($event)"></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Comissão* (%)</ion-label>
+        <ion-input [formControl]="$any(form).get('service_commission')" type="number" placeholder="5%" (keypress)="onlyNumber($event)" min="0"></ion-input>
+      </ion-item>
+    </div>
+
+    <p class="text-[0.8rem] font-bold w-full text-left mt-6 ml-6">Comissão por produto</p>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Tipo*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('product_type')"
+          class="w-full" placeholder="Selecione" required>
+          <ng-container>
+            <ng-container *ngFor="let item of filterType('product')">
+              <ion-select-option [value]="item">
+                {{ item.title }}
+              </ion-select-option>
+            </ng-container>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Meta (R$)*</ion-label>
+        <ion-input [formControl]="$any(form).get('product_goal')" type="text" placeholder="R$ 0,00" mask="***,**" (keypress)="onlyNumber($event)"></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Comissão* (%)</ion-label>
+        <ion-input [formControl]="$any(form).get('product_commission')" type="number" placeholder="5%" (keypress)="onlyNumber($event)" min="0"></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4 mt-6">
+      <ion-button class="text-[0.8rem] w-[20%]" expand="block" fill="outline" (click)="dismiss()">
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button class="text-[0.8rem] w-[20%]" expand="block" (click)="save()">
+        <ion-label class="capitalize" color="light">Lançar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

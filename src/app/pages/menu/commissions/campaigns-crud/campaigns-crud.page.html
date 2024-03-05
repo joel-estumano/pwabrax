@@ -1,0 +1,43 @@
+<app-header></app-header>
+
+<ion-content>
+  <div class="px-6">
+    <app-sub-header title="Editar Campanha"></app-sub-header>
+    <div class="flex flex-col items-center justify-center w-full">
+      <div class="w-full mt-4">
+        <div class="round bg-secondaryLight pb-4">
+          <div class="mx-4 mr-0">
+            <div class="flex items-center w-full min-h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Status</ion-label>
+                <ion-select cancelText="Cancelar" okText="Confirmar" [value]="object.status"
+                  (ionChange)="selectType($event)" class="w-full" placeholder="Selecione o status">
+                  <ion-select-option value="EM ANDAMENTO">Em Andamento</ion-select-option>
+                  <ion-select-option value="FINALIZADA">Finalizada</ion-select-option>
+                  <ion-select-option value="CANCELADA">Cancelada</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Meta (R$)*</ion-label>
+                <ion-input [(ngModel)]="object.goal" type="number"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Bônus (R$)*</ion-label>
+                <ion-input [(ngModel)]="object.bonus" type="number"></ion-input>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center w-full my-6 gap-4">
+          <ion-button (click)="back()" expand="block" class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+            Voltar
+          </ion-button>
+          <ion-button (click)="save()" expand="block" class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+            Salvar
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

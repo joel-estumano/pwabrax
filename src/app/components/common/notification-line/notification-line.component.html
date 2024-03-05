@@ -1,0 +1,15 @@
+<div (click)="goTo()" class="flex flex-col items-start justify-center w-full gap-1 cursor-pointer"
+  [ngClass]="notification.read ? 'opacity-50' : ''">
+  <div class="flex justify-between w-full text-[0.7rem] text-secondaryDark">
+    <p class="font-bold text-black">
+      {{ notification.type }}
+    </p>
+    <p>
+      {{ notification.date }}
+    </p>
+  </div>
+  <!-- w-1/2 -->
+  <p class="text-[0.7rem] w-2/3">
+    {{ notification.text }}
+  </p>
+</div>

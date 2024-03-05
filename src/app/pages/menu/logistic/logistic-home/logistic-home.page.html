@@ -1,0 +1,37 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6 flex flex-col justify-center">
+    <app-sub-header title="Logística"></app-sub-header>
+    <div class="flex items-center w-[75%]">
+      <ion-searchbar class="w-[60%]" placeholder="Digite sua busca" inputmode="text" type="text" [debounce]="300"
+        [(ngModel)]="search" (ionChange)="searching()" (ionClear)="searching(true)"></ion-searchbar>
+      <ion-button (click)="searching()" class="w-[15%]" expand="block">
+        <ion-label class="text-[0.6rem] font-bold" color="light">Buscar</ion-label>
+      </ion-button>
+    </div>
+
+    <app-custom-tabs *ngIf="user.value" class="w-full" [items]="tabs" [filter]="true"
+      (event)="tabEvent($event.index)"></app-custom-tabs>
+
+    <app-table *ngIf="logisticManager.show && logisticManager.pages.length > 0"
+      [headers]="logisticManager[class].headers"
+      [data]="logisticManager.show[logisticManager.currentPage] ? logisticManager.show[logisticManager.currentPage] : []"
+      (edit)="edit($event)" (del)="del($event)" (clickHeader)="clickHeader($event)"></app-table>
+    
+      <div class="mt-4">
+      <app-pagination *ngIf="logisticManager.show && logisticManager.pages.length > 0"
+        [currentPage]="logisticManager.currentPage" [res]="logisticManager.show" [tabs]="logisticManager.pages"
+        (pageChange)="logisticManager.changePage($event)"></app-pagination>
+    </div>
+
+    <div class="self-center mt-5 mb-5">
+      <ion-button (click)="export_xlsx()" color="light" class="action-button">
+        <ion-label class="text-primary">Exportar Relatório</ion-label>
+      </ion-button>
+      <ion-button (click)="add()" class="action-button">
+        <ion-label class="text-white">Lançar Nota</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar class="px-6">
+    <div class="flex justify-between items-center w-full h-full">
+      <div>
+        <p *ngIf="user.value">
+          Olá,
+          {{ user.value.nome ? user.value.nome : user.displayEmail }}
+        </p>
+      </div>
+      <div>
+        <ion-buttons slot="end">
+          <ion-button (click)="goTo('profile')" color="light" fill="clear">
+            <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button class="withBadge" color="light" fill="clear" (click)="goTo('home')">
+            <ion-badge *ngIf="notification.unread && notification.unread.length > 0" mode="ios">{{
+              notification.unread.length }}</ion-badge>
+            <ion-icon slot="icon-only" name="notifications-outline"> </ion-icon>
+          </ion-button>
+          <ion-button (click)="logout()" color="light" fill="clear">
+            <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>

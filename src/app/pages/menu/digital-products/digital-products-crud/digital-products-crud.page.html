@@ -1,0 +1,51 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6">
+    <app-sub-header title="Produtos Digitais"></app-sub-header>
+
+    <div class="flex flex-col items-center justify-center w-full">
+      <div class="w-full">
+        <div class="pb-4 round bg-secondaryLight">
+          <div class="mx-4 mr-0">
+            <div class="flex items-center w-full h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Nome do Produto</ion-label>
+                <ion-input [(ngModel)]="product.title" type="text" placeholder="Informe o nome do produto"></ion-input>
+              </ion-item>
+            </div>
+            <div class="flex items-center w-full h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Preço</ion-label>
+                <ion-input [(ngModel)]="product.price" type="text" placeholder="Informe o preço do produto"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Tipo do Produto</ion-label>
+                <ion-select cancelText="Cancelar" okText="Confirmar" [value]="product.type"
+                  (ionChange)="selectType($event)" class="w-full" placeholder="Selecione o tipo do produto">
+                  <ng-container *ngFor="let item of products.types">
+                    <ion-select-option value="{{item.name}}">{{item.name}}</ion-select-option></ng-container>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div class="flex items-center">
+              <ion-item class="w-full h-full">
+                <ion-label position="stacked">Insira a descrição do produto</ion-label>
+                <ion-textarea [(ngModel)]="product.description" class="min-h-[10rem]"></ion-textarea>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-center w-full mt-6 gap-4">
+    <ion-button color="primary" fill="outline" (click)="goBack()" class="text-[0.8rem] font-bold h-[2rem] w-[20%]"
+      expand="block">
+      <ion-label class="capitalize" color="primary">Voltar</ion-label>
+    </ion-button>
+    <ion-button (click)="send()" class="text-[0.8rem] font-bold h-[2rem] w-[20%]" expand="block">
+      <ion-label class="capitalize" color="light">Finalizar</ion-label>
+    </ion-button>
+  </div>
+</ion-content>

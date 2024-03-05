@@ -1,0 +1,11 @@
+<div class="w-1/2">
+  <h1 class="text-[0.9rem] font-bold pt-4">
+    {{ call.client ? "Perfil" : "Novo Cliente" }}
+  </h1>
+  <h3 *ngIf="!call.client" class="text-[0.6rem] mt-2">
+    Informe os dados do cliente em prospecção para cadastrá-lo em sua carteira
+    de clientes. <br />Os campos marcados com * são de preenchimento obrigatório
+    e estão sujeitos a validação.
+  </h3>
+</div>
+<app-custom-profile [user]="call.client"></app-custom-profile>

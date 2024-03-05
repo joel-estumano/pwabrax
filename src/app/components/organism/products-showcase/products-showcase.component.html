@@ -1,0 +1,16 @@
+<div class="flex justify-start items-center mt-4 mb-1">
+  <p class="text-primary font-bold text-[0.7rem]">{{ title }}</p>
+</div>
+<swiper-container slides-per-view="3.2">
+  <ng-container *ngFor="let item of products">
+    <swiper-slide>
+      <app-product-card
+        (addProduct)="add($event)"
+        (removeProduct)="remove($event)"
+        [call]="call"
+        [product]="item"
+        [icon]="icon"
+      ></app-product-card
+    ></swiper-slide>
+  </ng-container>
+</swiper-container>

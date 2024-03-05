@@ -1,0 +1,31 @@
+<ion-card class="h-[10rem]">
+  <div class="flex flex-col items-center justify-evenly w-full h-full">
+    <p class="text-primary font-bold text-[0.8rem]">{{ product.title }}</p>
+    <ion-icon
+      class="py-1"
+      color="primary"
+      size="large"
+      name="{{ icon }}"
+    ></ion-icon>
+    <p class="text-[1.1rem] text-black font-bold">R$ {{ product.price }}</p>
+    <div class="flex items-center">
+      <ion-button size="small" color="dark" (click)="remove()" fill="clear">
+        <ion-icon
+          size="small"
+          slot="icon-only"
+          name="remove-circle-outline"
+        ></ion-icon>
+      </ion-button>
+      <div>{{ find() }}</div>
+      <p>{{ product.quantity ? product.quantity : 0 }}</p>
+      <ion-button size="small" color="dark" (click)="add()" fill="clear">
+        <ion-icon
+          size="small"
+          slot="icon-only"
+          name="add-circle-outline"
+        ></ion-icon>
+      </ion-button>
+    </div>
+    <p class="text-[0.6rem]">Mais detalhes</p>
+  </div>
+</ion-card>

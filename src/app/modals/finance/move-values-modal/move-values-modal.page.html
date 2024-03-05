@@ -1,0 +1,70 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full py-[2rem] px-6 gap-6 overflow-y-auto">
+    <h1 class="text-[0.9rem] font-bold w-full text-center">
+      Movimentar valores
+    </h1>
+
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Caixa de origem*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('origin')" class="w-full"
+          placeholder="Selecione um caixa" required>
+          <ion-select-option *ngIf="fixed" value="CX LOJA">
+            CX LOJA
+          </ion-select-option>
+          <ng-container *ngIf="!fixed">
+            <ion-select-option *ngFor="let destiny of destinies" [value]="destiny">
+              {{ destiny }}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Caixa de destino*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="select_destiny($event)" class="w-full"
+          placeholder="Selecione um caixa" required>
+          <ng-container *ngFor="let destiny of destinies">
+            <ion-select-option value="{{destiny}}">
+              {{destiny}}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Valor a ser movimentado*</ion-label>
+        <ion-input [formControl]="$any(form).get('value')" type="number" placeholder="Informe um valor"
+          required></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Data da movimentação*</ion-label>
+        <ion-input [formControl]="$any(form).get('date')" type="email" placeholder="Selecione uma data"
+          (click)="pickDate()" required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openDate" (didDismiss)="pickDate()">
+        <ng-template>
+          <ion-datetime id="date" presentation="date" (ionChange)="setDate($event)" [showDefaultButtons]="true"
+            doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+    <div class="flex items-center w-full">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Observação</ion-label>
+        <ion-textarea placeholder="Escreva uma observação" class="min-h-[6rem]"
+          [formControl]="$any(form).get('observation')"></ion-textarea>
+      </ion-item>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4 py-[0.5rem]">
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" fill="outline" (click)="dismiss()">
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" (click)="save()">
+        <ion-label class="capitalize" color="light">Movimentar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,29 @@
+<ion-item class="w-full" lines="none">
+  <ion-label position="stacked">{{ label }}</ion-label>
+  <ion-input
+    readonly
+    (click)="pickDate()"
+    type="text"
+    placeholder="{{ placeholder ? placeholder : 'Selecione uma data' }}"
+    [(ngModel)]="date"
+    [disabled]="disabled"
+  ></ion-input>
+</ion-item>
+<ion-datetime-button class="hidden" datetime="date"></ion-datetime-button>
+<ion-modal
+  [keepContentsMounted]="true"
+  [isOpen]="openDate"
+  (didDismiss)="pickDate()"
+>
+  <ng-template>
+    <ion-datetime
+      id="date"
+      presentation="{{ type ? type : 'date' }}"
+      (ionChange)="setDate($event)"
+      [showDefaultButtons]="true"
+      doneText="Confirmar"
+      cancelText="Cancelar"
+      locale="pt-BR"
+    ></ion-datetime>
+  </ng-template>
+</ion-modal>

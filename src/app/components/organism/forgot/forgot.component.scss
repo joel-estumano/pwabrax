@@ -1,0 +1,15 @@
+ion-input {
+  border: 1px solid var(--ion-color-tertiary);
+  border-radius: 4px;
+  padding: 0 0.75rem !important;
+  --placeholder-color: #b1b1b1;
+}
+
+ion-checkbox {
+  --border-color: var(--ion-color-tertiary);
+}
+p {
+  ion-label {
+    display: inline;
+  }
+}

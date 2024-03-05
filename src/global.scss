@@ -1,0 +1,39 @@
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+// @import "@ionic/angular/css/padding.css";
+// @import "@ionic/angular/css/float-elements.css";
+// @import "@ionic/angular/css/text-alignment.css";
+// @import "@ionic/angular/css/text-transformation.css";
+// @import "@ionic/angular/css/flex-utils.css";
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "./theme/charts.scss";
+@import "./theme/fonts.scss";
+@import "./theme/input.scss";
+@import "./theme/patterns.scss";
+@import "./theme//styleGuide.scss";
+@import "./theme/variables.scss";
+
+@import "./theme/modals.scss";
+
+ion-select::part(icon) {
+  transform: translate3d(0px, 0px, 0px) !important;
+}
+
+.ion-accordion-toggle-icon {
+  font-size: 0.8rem;
+}
+
+.alert-wrapper.sc-ion-alert-md {
+  min-width: 25% !important;
+}

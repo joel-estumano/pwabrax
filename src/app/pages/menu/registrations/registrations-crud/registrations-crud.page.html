@@ -1,0 +1,203 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6">
+    <app-sub-header title="Cadastros"></app-sub-header>
+
+    <div class="flex flex-col items-center justify-center w-full">
+      <div class="w-full">
+        <app-custom-tabs [items]="tabs" [step]="true" [stepIndex]="{
+            current: selectedTab.value +1,
+            total: tabs.length
+          }" (event)="tabEvent($event.index)"></app-custom-tabs>
+        <div [ngClass]="selectedTab.name === tabs[2].name ? '' : 'bg-secondaryLight'" class="pb-4 round">
+          <div [ngClass]="selectedTab.name === tabs[2].name ? '' : 'mx-4 mr-0'">
+            <ng-container *ngIf="selectedTab.name === tabs[0].name">
+              <div class="flex items-center w-full h-16">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Nome</ion-label>
+                  <ion-input [(ngModel)]="user.nome" type="text" placeholder="Informe o nome completo"
+                    (keypress)="onlyText($event)"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Data de Nascimento</ion-label>
+                  <ion-input readonly (click)="pickDate()" type="email" placeholder="Selecione uma data"
+                    [(ngModel)]="user.data_nascimento"></ion-input>
+                </ion-item>
+              </div>
+
+              <!-- class="py-[3rem] px-6 gap-5" -->
+
+              <ion-datetime-button class="hidden" datetime="date"></ion-datetime-button>
+              <ion-modal [keepContentsMounted]="true" [isOpen]="openDate" (didDismiss)="pickDate()">
+                <ng-template>
+                  <ion-datetime id="date" presentation="date" (ionChange)="setDate($event)" [showDefaultButtons]="true"
+                    doneText="Confirmar" cancelText="Cancelar" max="{{minDate}}"></ion-datetime>
+                </ng-template>
+              </ion-modal>
+              <div class="flex items-center w-full h-16">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Nome da Mãe</ion-label>
+                  <ion-input [(ngModel)]="user.nome_mae" type="text" placeholder="Informe o nome completo da mãe"
+                    (keypress)="onlyText($event)"></ion-input>
+                </ion-item>
+              </div>
+
+              <div class="flex items-center w-full h-16">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">RG</ion-label>
+                  <ion-input [(ngModel)]="user.rg" type="text" placeholder="Informe o RG" maxlength="12"
+                    mask="**.***.***-*" (keypress)="onlyNumber($event)"
+                    (input)="preventNumbers($event, 'rg')"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">CPF</ion-label>
+                  <ion-input [(ngModel)]="user.cpf" type="text" placeholder="Informe o CPF" maxlength="14"
+                    max="999.999.999-99" (keypress)="onlyNumber($event)" (input)="preventNumbers($event, 'cpf')"
+                    mask="***.***.***-**"></ion-input>
+                </ion-item>
+              </div>
+
+              <div class="flex items-center w-full h-16">
+                <ion-item class="w-[30%]" lines="none">
+                  <ion-label position="stacked">CEP</ion-label>
+                  <ion-input [(ngModel)]="user.cep" type="text" placeholder="Informe o CEP" maxlength="9"
+                    mask="*****-***" (keypress)="onlyNumber($event)"
+                    (input)="preventNumbers($event, 'cep')"></ion-input>
+                </ion-item>
+                <ion-item class="w-[20%]" lines="none">
+                  <ion-label position="stacked">UF</ion-label>
+                  <ion-input [(ngModel)]="user.uf" type="text" placeholder="Selecione a UF" maxlength="2"
+                    (keypress)="onlyText($event)"></ion-input>
+                </ion-item>
+                <ion-item class="w-1/2" lines="none">
+                  <ion-label position="stacked">Logradouro</ion-label>
+                  <ion-input [(ngModel)]="user.logradouro" type="text" placeholder="Informe o logradouro"
+                    (keypress)="onlyText($event)"></ion-input>
+                </ion-item>
+              </div>
+
+              <div class="flex items-center w-full h-16">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Complemento</ion-label>
+                  <ion-input [(ngModel)]="user.complemento" type="text" placeholder="Informe o complemento, se houver"
+                    (keypress)="onlyText($event)"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Número</ion-label>
+                  <ion-input [(ngModel)]="user.numero" type="number" placeholder="Informe o número"
+                    (keypress)="limitNumber($event)"></ion-input>
+                </ion-item>
+              </div>
+
+              <div class="flex items-center w-full h-16">
+                <ion-item *ngIf="pageType === 'clients'" class="w-full" lines="none">
+                  <ion-label position="stacked">Associar à parceiro</ion-label>
+                  <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="selectPartner($event)"
+                    class="w-full" placeholder="Selecione o Parceiro">
+                    <ng-container *ngFor="let item of userClass.levels[2].data">
+                      <ion-select-option value="{{item.id}}">{{item.nome ? item.nome :
+                        item.email}}</ion-select-option></ng-container>
+                  </ion-select>
+                </ion-item>
+                <ion-item *ngIf="pageType === 'partners' || pageType === 'colaborators'" class="w-full" lines="none">
+                  <ion-label position="stacked">Comissão</ion-label>
+                  <ion-input [(ngModel)]="user.commission" type="text" placeholder="Informe a comissão"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="pageType === 'suppliers'" class="w-full" lines="none">
+                  <ion-label position="stacked">Status</ion-label>
+                  <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="selectStatus($event)" class="w-full"
+                    [value]="user.associate_to ? user.associate_to : ''" placeholder="Selecione o Parceiro">
+                    <ion-select-option value="1">Ativo</ion-select-option>
+                    <ion-select-option value="0">Inativo</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Perfil de Acesso</ion-label>
+                  <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="selectLevel($event)"
+                    [value]="user.level ? user.level : ''" placeholder="Selecione o nível de acesso">
+                    <ng-container *ngFor="let item of userClass.levelsFinder[pageType]">
+                      <ion-select-option value="{{ item.level }}">{{item.name}}</ion-select-option>
+                    </ng-container>
+                  </ion-select>
+                </ion-item>
+              </div>
+              <ng-container *ngIf="pageType === 'clients'">
+                <div class="flex items-center w-full h-16 gap-4">
+                  <ion-checkbox [checked]="hasDependents" [(ngModel)]="hasDependents"></ion-checkbox>
+                  <p class="text-[0.7rem]">Possuí dependentes?</p>
+                </div>
+
+                <ng-container *ngIf="hasDependents">
+                  <div class="flex items-center w-full h-16">
+                    <ion-item class="w-full" lines="none">
+                      <ion-label position="stacked">Nome do Dependente</ion-label>
+                      <ion-input [(ngModel)]="user.dependent.nome" type="text"
+                        placeholder="Informe o nome completo do dependente" (keypress)="onlyText($event)"></ion-input>
+                    </ion-item>
+                    <ion-item class="w-full" lines="none">
+                      <ion-label position="stacked">Telefone do Dependente</ion-label>
+                      <ion-input [(ngModel)]="user.dependent.telefone" type="text"
+                        placeholder="Informe o telefone do dependente com DDD" maxlength="15" mask="(**) *****-****"
+                        (keypress)="onlyNumber($event)" (input)="preventNumbers($event, 'telefone')"></ion-input>
+                    </ion-item>
+                  </div>
+
+                  <div class="flex items-center w-full h-16">
+                    <ion-item class="w-full" lines="none">
+                      <ion-label position="stacked">RG do Dependente</ion-label>
+                      <ion-input [(ngModel)]="user.dependent.rg" type="text" placeholder="Informe o RG do Dependente"
+                        maxlength="12" mask="**.***.***-*" (keypress)="onlyNumber($event)"
+                        (input)="preventNumbers($event, 'dependent.rg')"></ion-input>
+                    </ion-item>
+                    <ion-item class="w-full" lines="none">
+                      <ion-label position="stacked">CPF do Dependente</ion-label>
+                      <ion-input [(ngModel)]="user.dependent.cpf" type="text" placeholder="Informe o CPF do Dependente"
+                        maxlength="14" mask="***.***.***-**" (keypress)="onlyNumber($event)"
+                        (input)="preventNumbers($event, 'dependent.cpf')"></ion-input>
+                    </ion-item>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectedTab.name === tabs[1].name">
+              <div class="flex items-center w-full h-16">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Telefone</ion-label>
+                  <ion-input [(ngModel)]="user.telefone" type="tel" placeholder="Informe o telefone com DDD"
+                    maxlength="15" mask="(**) *****-****" (keypress)="onlyNumber($event)"
+                    (input)="preventNumbers($event, 'telefone')"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Celular</ion-label>
+                  <ion-input [(ngModel)]="user.celular" type="tel" placeholder="Informe o Celular com DDD"
+                    maxlength="15" mask="(**) *****-****" (keypress)="onlyNumber($event)"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">E-mail</ion-label>
+                  <ion-input [(ngModel)]="user.email" type="email" placeholder="Ex: seunome@email.com"></ion-input>
+                </ion-item>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="selectedTab.name === tabs[2].name">
+              <app-table [headers]="['Documentos', 'Situação', 'Arquivo', 'Ação']" [data]="data" (add)="adder($event)"
+                (edit)="editer($event)" (del)="deleter($event)" (clickRow)="changeStatus($event)"></app-table>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-center w-full mt-6 gap-4">
+    <ion-button color="primary" fill="outline" (click)="goBack(selectedTab.name === tabs[0].name)"
+      class="text-[0.8rem] font-bold h-[2rem] w-[20%]" expand="block">
+      <ion-label class="capitalize" color="primary">{{selectedTab.name === tabs[0].name ? 'Cancelar' :
+        'Voltar'}}</ion-label>
+    </ion-button>
+    <ion-button (click)="goUp(selectedTab.name === tabs[tabs.length - 1].name)"
+      class="text-[0.8rem] font-bold h-[2rem] w-[20%]" expand="block">
+      <ion-label class="capitalize" color="light">{{selectedTab.name === tabs[tabs.length - 1].name ? 'Finalizar' :
+        'Avançar'}}</ion-label>
+    </ion-button>
+  </div>
+</ion-content>

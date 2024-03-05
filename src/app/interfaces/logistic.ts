@@ -1,0 +1,44 @@
+export interface Logistic {
+  id?: string;
+  status?: string;
+  code?: string;
+  type?: string;
+  trackingCode?: string;
+  qtd?: string;
+  seller?: string;
+  cost?: string;
+  name?: string;
+  cpf?: string;
+  cellphone?: string;
+  city?: string;
+  uf?: string;
+  cep?: string;
+  address?: string;
+  number?: string;
+  complement?: string;
+  reason?: string;
+  observation?: string;
+  receiver?: string;
+  shipping_method?: string;
+  sale_value?: string;
+  discount?: string;
+  shipping_value?: string;
+  shipping_discount?: string;
+  payment_method?: string;
+  created_at?: Date;
+  category?: string;
+  operator?: string;
+  lineNumber?: string;
+  iccid?: string;
+  note?: string;
+  products?: Array<{
+    category?: string;
+    operator?: string;
+    lineNumber?: string;
+    iccid?: string;
+    note?: string;
+    type?: string;
+    qtd?: string;
+  }>;
+  responsible?: any;
+}

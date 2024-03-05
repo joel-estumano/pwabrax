@@ -1,0 +1,90 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6">
+    <app-sub-header title="Últimas novidades"></app-sub-header>
+
+    <!-- w-full mt-6 -->
+
+    <div style="margin: 1.5rem auto;"
+      class="flex flex-col justify-center items-start gap-4 py-4 px-6 w-[70%] border border-primary rounded-[0.5rem] customShadow">
+      <p class="text-[0.9rem] font-bold text-primary">Avisos e lembretes</p>
+      <ng-container *ngIf="notification.show">
+        <ng-container *ngFor="let each of notification.show[notification.currentPage]">
+          <app-notification-line class="w-full" [notification]="each"></app-notification-line>
+        </ng-container>
+      </ng-container>
+      <div class="flex items-center justify-end w-full">
+        <app-pagination *ngIf="notification.show && notification.pages.length > 0"
+          [currentPage]="notification.currentPage" [res]="notification.show" [tabs]="notification.pages"
+          (pageChange)="notification.changePage($event)"></app-pagination>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="user && user.value?.level === '5' || user.value?.level === '7'">
+
+    <div class="px-6">
+      <p class="text-[1.1rem] font-bold">Mês Vigente</p>
+
+      <div class="flex justify-between items-center mt-2 charts-min-height home-charts">
+        <div class="py-4 px-3 w-[49%] h-full border border-primary rounded-[0.5rem] customShadow">
+          <p class="text-[0.8rem] font-bold text-primary">Conta do mês</p>
+          <ngx-charts-pie-grid [view]="[400, 200]" [results]="monthlyAccount"> </ngx-charts-pie-grid>
+        </div>
+
+        <div class="py-4 px-3 w-[49%] h-full border border-primary rounded-[0.5rem] customShadow">
+          <p class="text-[0.8rem] font-bold text-primary">Balanço do mês</p>
+          <ngx-charts-bar-horizontal [view]="[400, 170]" [results]="monthEndBalance" [xAxis]="true"
+            [yAxis]="true"></ngx-charts-bar-horizontal>
+          <!-- <ngx-charts-bar-horizontal [view]="[400, 170]" [results]="[{ name: 'A Receber', value: receivements.getDataQuantity() },
+          { name: 'A Pagar', value: billsToPay.getDataQuantity() }]" [xAxis]="true"
+          [yAxis]="true"></ngx-charts-bar-horizontal> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center mt-2 charts-second-row-height px-6 mt-5 home-charts">
+      <div class="py-4 px-3 w-[23.5%] h-full bg-secondaryDark/10 border border-b rounded-[0.5rem] customShadow">
+        <p class="text-[0.8rem] font-bold">Comissões a pagar</p>
+        <div class="flex justify-between items-center comissions-and-supports">
+          <h1 class="text-[2rem] font-bold text-secondaryDark">{{commissionsPayable}}</h1>
+          <img src="../assets/images/cifrao-icon.PNG" alt="" />
+        </div>
+      </div>
+
+      <div class="py-4 px-3 w-[23.5%] h-full bg-secondaryDark/10 border border-dark rounded-[0.5rem] customShadow">
+        <p class="text-[0.8rem] font-bold">Suportes prestados</p>
+        <div class="flex justify-between items-center comissions-and-supports">
+          <h1 class="text-[2rem] font-bold text-secondaryDark">{{supportProvided}}</h1>
+          <img src="../assets/images/suport-icon.PNG" alt="" />
+        </div>
+      </div>
+
+      <div class="py-4 px-3 w-[49%] h-full bg-secondaryDark/10 border border-dark rounded-[0.5rem] customShadow">
+        <p class="text-[0.8rem] font-bold mb-2">Resumo da meta</p>
+        <div class="flex justify-between items-center">
+          <ngx-charts-line-chart [view]="[250, 100]" [results]="goalSummary" [xAxis]="false" [yAxis]="false">
+          </ngx-charts-line-chart>
+          <h1 class="text-[2rem] font-bold text-primary">{{goalSummaryValues}}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center charts-min-height px-6 mt-5 mb-5 home-charts">
+      <div class="py-4 px-3 w-[49%] h-full border border-primary rounded-[0.5rem] customShadow">
+        <p class="text-[0.8rem] font-bold text-primary">Meta do mês</p>
+        <ngx-charts-area-chart [view]="[400, 180]" [results]="monthlyGoal" [xAxis]="true" [yAxis]="true">
+        </ngx-charts-area-chart>
+      </div>
+
+      <div class="py-4 px-3 w-[49%] h-full border border-primary rounded-[0.5rem] customShadow">
+        <p class="text-[0.8rem] font-bold text-primary">Ranking de Vendedores</p>
+        <ngx-charts-bar-horizontal [view]="[400, 180]" [results]="salesRanking" [xAxis]="true"
+          [yAxis]="true"></ngx-charts-bar-horizontal>
+      </div>
+    </div>
+
+  </ng-container>
+
+</ion-content>

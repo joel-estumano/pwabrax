@@ -1,0 +1,50 @@
+<app-header></app-header>
+
+<!-- Vincular com as vendas dos vendedores -->
+<ion-content [fullscreen]="true">
+  <div class="px-6 flex flex-col justify-center">
+    <app-sub-header title="Comissões e Campanhas"></app-sub-header>
+
+    <app-custom-tabs class="w-full" [items]="tabs" [active]="current_tab" [filter]="true"
+      (event)="tabEvent($event.index)" (filterChoose)="onFilterChoose($event)"></app-custom-tabs>
+
+    <ng-container *ngIf="current_tab == 'Comissões'">
+      <app-table *ngIf="commissions.show && commissions.pages.length > 0" [headers]="commissions.headers"
+        [data]="commissions.show[commissions.currentPage] ? commissions.show[commissions.currentPage] : []"
+        (edit)="editCommission($event)" (del)="del($event)" (clickHeader)="clickHeader($event)"></app-table>
+
+      <div class="mt-4">
+        <app-pagination *ngIf="commissions.show && commissions.pages.length > 0" [currentPage]="commissions.currentPage"
+          [res]="commissions.show" [tabs]="commissions.pages"
+          (pageChange)="commissions.changePage($event)"></app-pagination>
+      </div>
+
+      <div class="flex items-center justify-center w-full gap-4 mt-6">
+        <ion-button (click)="new_comission()" fill="outline" class="action-button">
+          <ion-label class="text-primary">Lançar comissão</ion-label>
+        </ion-button>
+        <ion-button (click)="new_batch_comission()" class="action-button">
+          <ion-label class="text-white">Lançar comissão em lote</ion-label>
+        </ion-button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="current_tab == 'Campanhas'">
+      <app-table *ngIf="campaigns.show && campaigns.pages.length > 0" [headers]="campaigns.headers"
+        [data]="campaigns.show[campaigns.currentPage] ? campaigns.show[campaigns.currentPage] : []"
+        (edit)="editCampaign($event)" (del)="del($event)" (clickHeader)="clickHeader($event)"></app-table>
+
+      <div class="mt-4">
+        <app-pagination *ngIf="campaigns.show && campaigns.pages.length > 0" [currentPage]="campaigns.currentPage"
+          [res]="campaigns.show" [tabs]="campaigns.pages" (pageChange)="campaigns.changePage($event)"></app-pagination>
+      </div>
+
+      <div class="self-center my-2">
+        <ion-button (click)="new_campaign()" class="action-button">
+          <ion-label class="text-white">Lançar campanha</ion-label>
+        </ion-button>
+      </div>
+    </ng-container>
+
+  </div>
+</ion-content>

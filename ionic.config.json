@@ -1,0 +1,7 @@
+{
+  "name": "be220-dashboard",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

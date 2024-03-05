@@ -1,0 +1,104 @@
+<app-header></app-header>
+
+<ion-content>
+  <div class="px-6">
+    <app-sub-header title="Editar Comissão"></app-sub-header>
+    <div class="flex flex-col items-center justify-center w-full">
+      <div class="w-full mt-4">
+        <div class="round bg-secondaryLight pb-4">
+          <div class="mx-4 mr-0">
+            <div class="flex items-center w-full min-h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Colaborador</ion-label>
+                <ion-input [(ngModel)]="object.contributor.nome" type="text" readonly></ion-input>
+                <!-- <ion-select cancelText="Cancelar" okText="Confirmar" [value]="object.contributor.id"
+                  (ionChange)="select_contributor($event)" class="w-full" placeholder="Selecione um colaborador">
+                  <ng-container *ngFor="let item of contributors">
+                    <ion-select-option value="{{item.id}}"> {{item.nome}} </ion-select-option>
+                  </ng-container>
+                </ion-select> -->
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Código</ion-label>
+                <ion-input [(ngModel)]="object.code" type="text" readonly></ion-input>
+              </ion-item>
+            </div>
+
+            <div class="flex items-center w-full min-h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Situação</ion-label>
+                <!-- <ion-input [(ngModel)]="object.status" type="text"></ion-input> -->
+                <ion-select cancelText="Cancelar" okText="Confirmar" [value]="object.status" class="w-full"
+                  placeholder="Selecione" required>
+                  <ng-container>
+                    <ion-select-option value="ATIVO">Ativo</ion-select-option>
+                    <ion-select-option value="INATIVO">Inativo</ion-select-option>
+                  </ng-container>
+                </ion-select>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Contato</ion-label>
+                <ion-input [(ngModel)]="object.email" type="email" readonly></ion-input>
+              </ion-item>
+            </div>
+
+            <p class="font-bold mt-6">Comissão por serviço</p>
+            <div class="flex items-center w-full">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Tipo</ion-label>
+                <ion-input [(ngModel)]="object.service_type.title" type="text"></ion-input>
+                <!-- <ion-select cancelText="Cancelar" okText="Confirmar" [value]="object.service_type.id"
+                  (ionChange)="selectCommissionType($event, 'service')" class="w-full"
+                  placeholder="Selecione a comissão">
+                  <ng-container *ngFor="let item of filterType('service')">
+                    <ion-select-option value="{{item.id}}">{{item.title}}</ion-select-option>
+                  </ng-container>
+                </ion-select> -->
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Meta</ion-label>
+                <ion-input [(ngModel)]="object.service_goal" type="number"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Comissão</ion-label>
+                <ion-input [(ngModel)]="object.service_commission" type="number"></ion-input>
+              </ion-item>
+            </div>
+
+            <p class="font-bold mt-6">Comissão por produto</p>
+            <div class="flex items-center w-full">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Tipo</ion-label>
+                <ion-input [(ngModel)]="object.product_type.title" type="text"></ion-input>
+                <!--<ion-select cancelText="Cancelar" okText="Confirmar" [value]="object.product_type.id" class="w-full"
+                  (ionChange)="selectCommissionType($event, 'product')" class="w-full"
+                  placeholder="Selecione a comissão">
+                  <ng-container *ngFor="let item of filterType('product')">
+                    <ion-select-option value="{{item.id}}">{{ item.title }}</ion-select-option>
+                  </ng-container>
+                </ion-select>-->
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Meta</ion-label>
+                <ion-input [(ngModel)]="object.product_goal" type="number"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Comissão</ion-label>
+                <ion-input [(ngModel)]="object.product_commission" type="number"></ion-input>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center w-full my-6 gap-4">
+          <ion-button (click)="back()" expand="block" class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+            Voltar
+          </ion-button>
+          <ion-button (click)="save()" expand="block" class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+            Salvar
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

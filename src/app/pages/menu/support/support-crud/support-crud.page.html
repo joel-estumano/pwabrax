@@ -1,0 +1,98 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6">
+    <app-sub-header title="Ajuda e Suporte"></app-sub-header>
+
+    <div class="flex flex-col items-center justify-center w-full">
+      <div class="w-full">
+        <app-custom-tabs [items]="[
+          { name: 'Suporte', value: 0 },
+        ]"></app-custom-tabs>
+        <div class="pb-4 round bg-secondaryLight">
+          <div class="mx-4 mr-0">
+            <h1 class="text-[0.9rem] font-bold pt-4">Novo Suporte</h1>
+            <h3 class="text-[0.6rem] mt-2">
+              Selecione o cliente que deseja abrir o suporte escolhendo data e
+              horário para o atendimento.
+            </h3>
+            <div class="flex items-center w-full h-14">
+              <ion-item *ngIf="id" class="w-full" lines="none">
+                <ion-label position="stacked">Status</ion-label>
+                <ion-select cancelText="Cancelar" okText="Confirmar" [(ngModel)]="ticket.status" class="w-full"
+                  placeholder="Selecione um Status">
+                  <ng-container *ngFor="let item of support.status">
+                    <ion-select-option value="{{item.name}}">{{item.name}}</ion-select-option></ng-container>
+                </ion-select>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Cliente</ion-label>
+                <ion-select cancelText="Cancelar" okText="Confirmar" *ngIf="user.levels[0].data.length > 0"
+                  [(ngModel)]="ticket.client_id" (ionChange)="select($event)" class="w-full"
+                  placeholder="Selecione um cliente">
+                  <ng-container *ngFor="let item of user.levels[0].data">
+                    <ion-select-option value="{{item.id}}">{{item.nome}}</ion-select-option></ng-container>
+                </ion-select>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Categoria</ion-label>
+                <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="selectCategories($event)"
+                  [(ngModel)]="ticket.category" class="w-full" placeholder="Selecione uma categoria">
+                  <ng-container *ngFor="let item of support.supportCategories">
+                    <ion-select-option value="{{item.name}}">{{item.name}}</ion-select-option></ng-container>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div class="flex items-center w-full">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Data</ion-label>
+                <ion-input [(ngModel)]="ticket.date" type="text" placeholder="00/00/00" (click)="pickDate()"
+                  readonly></ion-input>
+              </ion-item>
+              <ion-datetime-button class="hidden" datetime="original_due_date"></ion-datetime-button>
+              <ion-modal [keepContentsMounted]="true" [isOpen]="openDate" (didDismiss)="pickDate()">
+                <ng-template>
+                  <ion-datetime id="original_due_date" presentation="original_due_date" (ionChange)="dateChange($event)"
+                    [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+                </ng-template>
+              </ion-modal>
+            </div>
+            <div class="flex items-center w-full">
+              <ion-item class="w-full h-full">
+                <ion-label position="stacked">Observações</ion-label>
+                <ion-textarea placeholder="Informe mais detalhes sobre o ocorrido." [(ngModel)]="ticket.description"
+                  class="min-h-[8rem]"></ion-textarea></ion-item>
+            </div>
+            <ng-container *ngIf="ticket.status === 'Cancelado'">
+              <div class="flex items-center w-full">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Data do Cancelamento</ion-label>
+                  <ion-input [(ngModel)]="ticket.cancelDate" type="text" readonly></ion-input>
+                </ion-item>
+              </div>
+              <div class="flex items-center w-full">
+                <ion-item class="w-full h-full">
+                  <ion-label position="stacked">Motivo do Cancelamento</ion-label>
+                  <ion-textarea [(ngModel)]="ticket.cancelMotive" class="min-h-[6rem]"></ion-textarea>
+                </ion-item>
+              </div>
+            </ng-container>
+            <app-chat *ngIf="id && ticket.client_id" [call]="ticket" (event)="comment($event)"></app-chat>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-center w-full mt-6 gap-4">
+    <ion-button color="primary" fill="outline" (click)="goBack()" class="text-[0.8rem] font-bold h-[2rem] w-[20%]"
+      expand="block">
+      <ion-label class="capitalize" color="primary">Voltar</ion-label>
+    </ion-button>
+    <ion-button (click)="send()" class="text-[0.8rem] font-bold h-[2rem] w-[20%]" expand="block">
+      <ion-label class="capitalize" color="light">Finalizar</ion-label>
+    </ion-button>
+    <ion-button (click)="share()" class="text-[0.8rem] font-bold h-[2rem] w-[20%]" expand="block" *ngIf="id">
+      <ion-label class="capitalize" color="light">Compartilhar</ion-label>
+    </ion-button>
+  </div>
+</ion-content>

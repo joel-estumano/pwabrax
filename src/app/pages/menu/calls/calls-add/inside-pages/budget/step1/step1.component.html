@@ -1,0 +1,20 @@
+<div class="w-1/2">
+  <h1 class="text-[0.9rem] font-bold pt-4 mb-8">Detalhes do Orçamento</h1>
+</div>
+<div>
+  <ion-accordion-group value="{{ call.products[0].product.title }}">
+    <ng-container *ngFor="let products of call.products">
+      <ion-accordion class="bg-white rounded-t mt-4" value="{{ products.product.title }}">
+        <ion-item lines="none" slot="header" color="transparent"
+          class="flex items-center justify-center text-[0.8rem] bg-primaryLight h-8">
+          <ion-label>{{ products.product.title }}</ion-label>
+        </ion-item>
+        <div class="ion-padding min-h-[6rem] border-b-sm" slot="content">
+          <ng-container *ngFor="let item of products.product.line; let i = index">
+            <app-step1-line [product]="item" [index]="i + 1"></app-step1-line>
+          </ng-container>
+        </div>
+      </ion-accordion>
+    </ng-container>
+  </ion-accordion-group>
+</div>

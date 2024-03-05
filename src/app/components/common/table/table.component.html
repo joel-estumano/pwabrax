@@ -1,0 +1,127 @@
+<div class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full pt-[0.09rem] sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full text-left text-sm font-light">
+          <thead class="border-b bg-primaryLight text-[0.65rem]">
+            <tr>
+              <ng-container *ngFor="let item of headers">
+                <th (click)="headerClick(item)" [ngClass]="item === 'Ação'
+                      ? 'text-center'
+                      : item === 'Arquivo'
+                      ? 'w-1/4 cursor-pointer'
+                      : 'cursor-pointer'
+                  " scope="col" class="px-4 py-2">
+                  <ng-container *ngIf="item === 'Ação' || clickHeader.observers.length === 0">
+                    {{ item }}
+                  </ng-container>
+
+                  <div *ngIf="item !== 'Ação' && clickHeader.observers.length > 0"
+                    class="flex items-center justify-between">
+                    {{ item }}
+                    <ion-icon class="w-[0.85rem] h-[0.85rem]" slot="start" name="swap-vertical-sharp"></ion-icon>
+                  </div>
+                </th>
+              </ng-container>
+            </tr>
+          </thead>
+          <tbody *ngIf="headers.length > 0">
+            <ng-container *ngIf="data.length > 0">
+              <ng-container *ngFor="let item of data; let i = index">
+                <tr class="border-b bg-neutral-100" [ngClass]="item.disabled ? 'opacity-50' : ''">
+                  <ng-container *ngFor="let info of item.info">
+                    <td (click)="info !== 'actions' ? clickFunc(item) : ''"
+                      [ngClass]="info === 'actions' ? 'w-[10%]' : ''" class="whitespace-nowrap px-4 py-4 font-medium">
+                      <ng-container *ngIf="info === 'actions' && !item.disabled">
+                        <div class="flex items-center justify-center">
+                          <div *ngIf="item.actions.includes('add')">
+                            <ion-button [disabled]="item.hasFile" (click)="adder.click()" class="mr-[-.1rem]"
+                              size="small" fill="clear">
+                              <ion-icon class="h-[0.8rem]" color="dark" slot="icon-only" size="small"
+                                name="add"></ion-icon>
+                            </ion-button>
+                            <input (change)="addClick(item, $event)" #adder class="hidden" type="file"
+                              accept="application/pdf" />
+                          </div>
+                          <div *ngIf="item.actions.includes('edit') || item.actions.includes('edit_file')">
+                            <ion-button [disabled]="
+                                !item.hasFile && item.actions.includes('add')
+                              " (click)="item.actions.includes('edit_file') ? editer.click() : editFunc(item)"
+                              class="mr-[-.1rem]" size="small" fill="clear">
+                              <ion-icon class="h-[0.8rem]" color="dark" slot="icon-only" size="small"
+                                name="pencil"></ion-icon>
+                            </ion-button>
+                            <input (change)="editClick(item, $event)" #editer class="hidden" type="file"
+                              accept="application/pdf" />
+                          </div>
+                          <div *ngIf="item.actions.includes('share')">
+                            <ion-button [disabled]="item.hasFile" (click)="shareClick(item)" class="mr-[-.1rem]"
+                              size="small" fill="clear">
+                              <ion-icon class="h-[0.8rem]" color="dark" slot="icon-only" size="small"
+                                name="share-social"></ion-icon>
+                            </ion-button>
+                          </div>
+                          <div *ngIf="
+                              item.actions.includes('view') &&
+                              permissioner.hasPermission(['5', '7'])
+                            ">
+                            <ion-button [disabled]="!item.hasFile" (click)="view(item)" class="mr-[-.1rem]" size="small"
+                              fill="clear">
+                              <ion-icon class="h-[0.8rem]" color="dark" slot="icon-only" size="small"
+                                name="eye"></ion-icon>
+                            </ion-button>
+                          </div>
+                          <ion-button *ngIf="item.actions.includes('delete')" (click)="delClick(item)" size="small"
+                            fill="clear">
+                            <ion-icon class="h-[0.8rem]" color="dark" slot="icon-only" size="small"
+                              name="trash"></ion-icon>
+                          </ion-button>
+                          <ion-button *ngIf="item.actions.includes('accept')" (click)="acceptClick(item)" size="small"
+                            fill="clear">
+                            <ion-icon class="h-[1rem]" color="dark" slot="icon-only" size="small"
+                              name="checkmark"></ion-icon>
+                          </ion-button>
+                          <ion-button *ngIf="item.actions.includes('refuse')" (click)="refuseClick(item)" size="small"
+                            fill="clear">
+                            <ion-icon class="h-[1rem]" color="dark" slot="icon-only" size="small"
+                              name="close"></ion-icon>
+                          </ion-button>
+                          <!-- <ion-button *ngIf="item.actions.includes('download')" (click)="downloadClick(item)"
+                            size="small" fill="clear">
+                            <ion-icon class="h-[1rem]" color="dark" slot="icon-only" size="small"
+                              name="download-outline"></ion-icon>
+                          </ion-button> -->
+                          <ion-button *ngIf="item.actions.includes('download-bankslip')" (click)="downloadBankslip(item)"
+                            size="small" fill="clear">
+                            <ion-icon class="h-[1.5rem]" color="dark" slot="icon-only" size="small"
+                              name="barcode-outline"></ion-icon> 
+                          </ion-button>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="info !== 'actions'">
+                        <p class="text-[0.7rem] text-start whitespace-pre-wrap">
+                          {{ info }}
+                        </p>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </tbody>
+          <tfoot class="border-b bg-primaryLight text-[0.65rem] font-bold" *ngIf="active == 'Movimentações'">
+            <tr>
+              <ng-container *ngFor="let item of headers; let lastIndex = last">
+                <td scope="col" class="px-4 py-2">
+                  <div class="flex items-center justify-between">
+                    <div *ngIf="lastIndex">Total em caixa: {{ total }}</div>
+                  </div>
+                </td>
+              </ng-container>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

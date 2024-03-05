@@ -1,0 +1,19 @@
+ion-input {
+  padding: 0 0.75rem !important;
+  --placeholder-color: #b1b1b1;
+}
+
+ion-button {
+  text-transform: lowercase;
+  span {
+    text-transform: uppercase;
+  }
+}
+ion-checkbox {
+  --border-color: var(--ion-color-tertiary);
+}
+p {
+  ion-label {
+    display: inline;
+  }
+}

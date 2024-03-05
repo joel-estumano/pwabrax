@@ -1,0 +1,34 @@
+ion-content {
+  --background: #de672c !important;
+}
+
+ion-menu {
+  ion-content {
+    --ion-background-color: #de672c !important;
+
+    p.app-title {
+      font-weight: 600;
+      font-size: 12px;
+      background: #fff;
+      border-radius: 15px;
+      padding: 4px 8px;
+    }
+
+    ion-item {
+      --background: transparent;
+      --min-height: 2rem;
+
+      ion-icon {
+        font-size: 18px;
+      }
+
+      ion-label {
+        font-size: 12px !important;
+        padding-bottom: 0 !important;
+      }
+    }
+    ion-item.selected {
+      --background: white !important;
+    }
+  }
+}

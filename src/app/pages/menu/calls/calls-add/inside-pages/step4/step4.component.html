@@ -1,0 +1,61 @@
+<div class="w-1/2">
+  <h1 class="text-[0.9rem] font-bold pt-4">Pagamento</h1>
+  <h3 class="text-[0.6rem] mt-2">
+    Informe a forma de pagamento escolhida pelo cliente e complete as
+    informações com as informações cedidas pelo cliente no momento da
+    contratação.
+  </h3>
+</div>
+
+<p class="text-[0.75rem] mt-4 mb-[-1rem]">PLANO</p>
+
+<div class="flex items-center w-full">
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Data de vencimento</ion-label>
+    <ion-input
+      readonly
+      (click)="pickDate()"
+      type="email"
+      placeholder="Selecione uma data"
+      [(ngModel)]="call.date"
+    ></ion-input>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Forma de Pagamento</ion-label>
+    <ion-select
+      cancelText="Cancelar"
+      okText="Confirmar"
+      [value]="call.payment_method"
+      [(ngModel)]="call.payment_method"
+      (ionChange)="select($event)"
+      class="w-full"
+      placeholder="Selecione um método de Pagamento"
+    >
+      <ng-container>
+        <ng-container *ngFor="let item of payments.value">
+          <ion-select-option value="{{ item.title }}">{{
+            item.title
+          }}</ion-select-option></ng-container
+        >
+      </ng-container>
+    </ion-select>
+  </ion-item>
+</div>
+
+<ion-datetime-button class="hidden" datetime="date"></ion-datetime-button>
+<ion-modal
+  [keepContentsMounted]="true"
+  [isOpen]="openDate"
+  (didDismiss)="pickDate()"
+>
+  <ng-template>
+    <ion-datetime
+      id="date"
+      presentation="date"
+      (ionChange)="setDate($event)"
+      [showDefaultButtons]="true"
+      doneText="Confirmar"
+      cancelText="Cancelar"
+    ></ion-datetime>
+  </ng-template>
+</ion-modal>

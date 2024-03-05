@@ -1,0 +1,55 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full h-full px-6 gap-5 overflow-y-auto">
+    <h1 class="text-[1rem] font-bold w-full text-center">Lançar campanha</h1>
+
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Início*</ion-label>
+        <ion-input [formControl]="$any(form).get('start_date')" type="email" placeholder="00/00/00"
+          (click)="pickStartDate()" readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="start_date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openStartDate" (didDismiss)="pickStartDate()">
+        <ng-template>
+          <ion-datetime id="start_date" presentation="start_date" (ionChange)="setStartDate($event)"
+            [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Fim*</ion-label>
+        <ion-input [formControl]="$any(form).get('end_date')" type="email" placeholder="00/00/00"
+          (click)="pickEndDate()" required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="end_date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openEndDate" (didDismiss)="pickEndDate()">
+        <ng-template>
+          <ion-datetime id="end_date" presentation="end_date" (ionChange)="setEndDate($event)"
+            [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Meta (R$)*</ion-label>
+        <!-- <ion-input [formControl]="$any(form).get('goal')" type="number" placeholder="0,00" required></ion-input> -->
+        <ion-input [formControl]="$any(form).get('goal')" type="text" placeholder="0,00" mask="***,**" (keypress)="onlyNumber($event)" required></ion-input>
+      </ion-item>
+
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Bônus (R$)*</ion-label>
+        <ion-input [formControl]="$any(form).get('bonus')" type="text" placeholder="R$ 0,00" mask="***,**" (keypress)="onlyNumber($event)" required></ion-input>
+      </ion-item>      
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4">
+      <ion-button class="text-[0.8rem] w-[20%]" expand="block" fill="outline" (click)="dismiss()">
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button class="text-[0.8rem] w-[20%]" expand="block" (click)="save()">
+        <ion-label class="capitalize" color="light">Lançar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,42 @@
+<ion-content [fullscreen]="true">
+  <div
+    class="flex flex-col items-center justify-center w-full py-[4rem] px-6 gap-6 overflow-y-auto"
+  >
+    <h1 class="text-[0.9rem] font-bold w-full text-center">Lançar Nota</h1>
+
+    <ng-container *ngFor="let product of logistic.products">
+      <app-each-product [logistic]="product"></app-each-product>
+    </ng-container>
+
+    <div class="flex w-full items-center justify-center">
+      <ion-button
+        class="text-[0.8rem] font-bold h-[2rem] w-[30%]"
+        expand="block"
+        color="dark"
+        (click)="addProduct()"
+      >
+        <ion-label class="capitalize" color="light"
+          >Adicionar Produto
+        </ion-label>
+      </ion-button>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4">
+      <ion-button
+        class="text-[0.8rem] font-bold h-[2rem] w-[20%]"
+        expand="block"
+        fill="outline"
+        (click)="dismiss()"
+      >
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button
+        class="text-[0.8rem] font-bold h-[2rem] w-[20%]"
+        expand="block"
+        (click)="save()"
+      >
+        <ion-label class="capitalize" color="light">Salvar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,59 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full h-full py-[3rem] px-4 gap-5 overflow-y-auto">
+    <h1 class="text-[0.9rem] font-bold w-full text-center">
+      Abertura/Fechamento de Caixa
+    </h1>
+
+    <div class="flex items-center w-full">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Descrição*</ion-label>
+        <ion-textarea placeholder="Informe a descrição" class="min-h-[4rem]" [formControl]="$any(form).get('description')"></ion-textarea>
+      </ion-item>
+    </div>
+
+    <div class="flex items-center w-full">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Data</ion-label>
+        <ion-input [formControl]="$any(form).get('date')" type="text" placeholder="00/00/00" (click)="pickDate()"
+          required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openDate" (didDismiss)="pickDate()">
+        <ng-template>
+          <ion-datetime id="date" presentation="date" (ionChange)="setDate($event)" [showDefaultButtons]="true"
+            doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Status*</ion-label>
+        <ion-input [formControl]="$any(form).get('status')" type="text" placeholder="Status" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Total*</ion-label>
+        <ion-input [formControl]="$any(form).get('value')" type="text" placeholder="Informe o valor"
+          required></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Ação*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('action')" class="w-full"
+          placeholder="Selecione" required>
+          <ng-container>
+            <ion-select-option value="ABRIR">Abrir</ion-select-option>
+            <ion-select-option value="FECHAR">Fechar</ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4 mt-4">
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" fill="outline" (click)="dismiss()">
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button class="text-[0.8rem] font-bold w-[20%]" expand="block" (click)="save()">
+        <ion-label class="capitalize" color="light">Lançar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

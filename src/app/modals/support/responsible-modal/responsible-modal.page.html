@@ -1,0 +1,45 @@
+<ion-content [fullscreen]="true">
+  <div
+    class="flex flex-col items-center justify-center w-full h-full py-4 px-8"
+  >
+    <h1 class="text-[0.9rem] font-bold w-full text-center">Compartilhar</h1>
+
+    <div class="flex flex-col items-center w-full">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Responsável</ion-label>
+        <ion-select
+          cancelText="Cancelar"
+          okText="Confirmar"
+          *ngIf="responsibles.length > 0"
+          [(ngModel)]="responsible"
+          class="w-full"
+          placeholder="Selecione um responsável"
+        >
+          <ng-container *ngFor="let item of responsibles">
+            <ion-select-option value="{{item.id}}"
+              >{{item.nome}}</ion-select-option
+            ></ng-container
+          >
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4">
+      <ion-button
+        class="text-[0.8rem] font-bold h-[2rem] w-[30%]"
+        expand="block"
+        fill="outline"
+        (click)="dismiss()"
+      >
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button
+        class="text-[0.8rem] font-bold h-[2rem] w-[30%]"
+        expand="block"
+        (click)="sendNotification()"
+      >
+        <ion-label class="capitalize" color="light">Enviar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

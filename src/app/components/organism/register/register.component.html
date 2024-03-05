@@ -1,0 +1,87 @@
+<p class="text-center font-bold text-[1.1rem] text-primary">Criar Conta</p>
+
+<ion-item lines="none">
+  <ion-label class="text-[0.9rem] pb-6" position="stacked">E-mail</ion-label>
+  <ion-input
+    [(ngModel)]="userRegister.email"
+    type="email"
+    placeholder="email@email.com.br"
+  ></ion-input>
+</ion-item>
+
+<ion-item lines="none">
+  <ion-label class="text-[0.9rem] pb-6" position="stacked"
+    >Insira uma senha</ion-label
+  >
+  <div class="flex w-full items-center">
+    <ion-input
+      class="w-full"
+      [(ngModel)]="userRegister.password"
+      [type]="showingPassword ? 'text' : 'password'"
+      placeholder="No mínimo 8 caracteres"
+    ></ion-input>
+    <ion-button
+      (click)="showPassword()"
+      class="float-right"
+      fill="clear"
+      color="dark"
+    >
+      <ion-icon
+        slot="icon-only"
+        [name]="showingPassword ? 'eye-off' : 'eye'"
+      ></ion-icon>
+    </ion-button>
+  </div>
+</ion-item>
+
+<ion-item lines="none">
+  <ion-label class="text-[0.9rem] pb-6" position="stacked"
+    >Repita a senha</ion-label
+  >
+  <div class="flex w-full items-center">
+    <ion-input
+      class="w-full"
+      [(ngModel)]="confirmPassword"
+      [type]="showingRepeatPassword ? 'text' : 'password'"
+      placeholder="No mínimo 8 caracteres"
+    ></ion-input>
+    <ion-button
+      (click)="showRepeatPassword()"
+      class="float-right"
+      fill="clear"
+      color="dark"
+    >
+      <ion-icon
+        slot="icon-only"
+        [name]="showingRepeatPassword ? 'eye-off' : 'eye'"
+      ></ion-icon>
+    </ion-button>
+  </div>
+</ion-item>
+
+<div class="flex gap-2 mt-4">
+  <ion-checkbox [(ngModel)]="checked" class="bg-white"></ion-checkbox>
+  <p class="ml-2 w-full">
+    Aceito os
+    <ion-label (click)="openTermsModal()" class="underline cursor-pointer"
+      >termos e condições</ion-label
+    >
+  </p>
+</div>
+
+<ion-button
+  [disabled]="!checked"
+  class="text-[0.8rem] font-bold mt-2 mb-4 h-[3rem] main-button"
+  (click)="register()"
+  expand="block"
+>
+  <ion-label color="light"><span>R</span>egistrar</ion-label>
+</ion-button>
+
+<ion-button
+  class="text-[0.8rem] font-bold h-[3rem] secondary"
+  (click)="goToLogin()"
+  expand="block"
+>
+  <ion-label color="primary"><span>F</span>azer Login</ion-label>
+</ion-button>

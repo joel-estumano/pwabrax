@@ -1,0 +1,32 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6 flex flex-col justify-center">
+    <app-sub-header title="Cadastros"></app-sub-header>
+    <div class="flex items-center w-[75%]">
+      <ion-searchbar class="w-[60%]" placeholder="Digite sua busca" inputmode="text" type="text" [debounce]="300"
+        [(ngModel)]="search" (ionChange)="searching()" (ionClear)="searching(true)"></ion-searchbar>
+      <ion-button (click)="searching()" class="w-[15%]" expand="block">
+        <ion-label class="text-[0.6rem] font-bold" color="light">Buscar</ion-label>
+      </ion-button>
+    </div>
+
+    <app-custom-tabs *ngIf="user.value" class="w-full" [items]="tabs" [filter]="true"
+      (event)="tabEvent($event.index)"></app-custom-tabs>
+
+    <app-table *ngIf="people.show && people.pages.length > 0" [headers]="people.headers"
+      [data]="people.show[people.currentPage] ? people.show[people.currentPage] : []" (edit)="edit($event)"
+      (del)="del($event)" (share)="share($event)" (clickHeader)="clickHeader($event)"></app-table>
+    <div class="mt-4">
+      <app-pagination *ngIf="people.show && people.pages.length > 0" [currentPage]="people.currentPage"
+        [res]="people.show" [tabs]="people.pages" (pageChange)="people.changePage($event)"></app-pagination>
+    </div>
+    <div *ngIf="user.value" class="self-center mt-2 mb-4">
+      <ion-button
+        *ngIf="user.value.level === '3' || user.value.level === '4' || user.value.level === '5' || user.value.level === '7'"
+        (click)="add()">
+        <ion-label class="text-white">Cadastrar Novo </ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

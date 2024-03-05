@@ -1,0 +1,31 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6 flex flex-col justify-center">
+    <app-sub-header title="Atendimentos"></app-sub-header>
+    <div class="flex items-center w-[75%]">
+      <ion-searchbar class="w-[60%]" placeholder="Digite sua busca" inputmode="text" type="text" [debounce]="300"
+        [(ngModel)]="search" (ionChange)="searching()" (ionClear)="searching(true)"></ion-searchbar>
+      <ion-button (click)="searching()" class="w-[15%]" expand="block">
+        <ion-label class="text-[0.6rem] font-bold" color="light">Buscar</ion-label>
+      </ion-button>
+    </div>
+
+    <app-custom-tabs *ngIf="user.value" class="w-full" [items]="tabs" [filter]="true"
+      (event)="tabEvent($event.index)" (filterChoose)="onFilterChoose($event)"></app-custom-tabs>
+
+    <app-table *ngIf="callsManager.show && callsManager.pages.length > 0" [headers]="callsManager[class].headers"
+      [data]="callsManager.show[callsManager.currentPage] ? callsManager.show[callsManager.currentPage] : []"
+      (edit)="edit($event)" (del)="del($event)" (clickHeader)="clickHeader($event)"></app-table>
+    <div class="mt-4">
+      <app-pagination *ngIf="callsManager.show && callsManager.pages.length > 0"
+        [currentPage]="callsManager.currentPage" [res]="callsManager.show" [tabs]="callsManager.pages"
+        (pageChange)="callsManager.changePage($event)"></app-pagination>
+    </div>
+    <div class="self-center my-2">
+      <ion-button (click)="add()">
+        <ion-label class="text-white">Abrir Nova</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

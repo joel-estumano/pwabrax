@@ -1,0 +1,54 @@
+<div class="w-1/2">
+  <h1 class="text-[0.9rem] font-bold pt-4 mb-8">
+    Detalhes do Orçamento - Resumo
+  </h1>
+</div>
+
+<div class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full pt-[0.09rem] sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <div class="min-w-full text-left text-sm font-light">
+          <div
+            class="flex items-center justify-start border-b bg-secondaryDark text-[0.65rem] text-white h-8 font-bold">
+            <p class="text-start w-1/4 pl-8">Produto</p>
+            <p class="text-start w-1/4 pl-8">Número</p>
+            <p class="text-start w-1/4 pl-8">ICCID</p>
+            <p class="text-start w-1/4 pl-8">Preço R$</p>
+          </div>
+          <ng-container *ngFor="let products of call.products">
+            <div class="flex flex-col items-start justify-center bg-primaryLight border">
+              <p class="py-2 pl-8 text-[0.7rem]">
+                {{ products.product.title }}
+              </p>
+              <ng-container *ngFor="let item of products.product.line">
+                <div class="flex items-center justify-start border-b bg-slate-50 text-[0.6rem] w-full py-1">
+                  <p class="text-start w-1/4 pl-8">
+                    {{ products.product.title }}
+                  </p>
+                  <p class="text-start w-1/4 pl-8">{{ item.line }}</p>
+                  <p class="text-start w-1/4 pl-8">{{ item.iccid }}</p>
+                  <p class="text-start w-1/4 pl-8">
+                    {{ products.product.price }}
+                  </p>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+          <div class="flex justify-around bg-secondaryDark/50 border font-bold py-2 text-[0.7rem]">
+            <p class="text-start w-3/4 pl-8">Subtotal</p>
+            <p class="text-start w-1/4 pl-8">{{ call.subtotal }}</p>
+          </div>
+          <div class="flex justify-around bg-secondaryDark/50 border font-bold py-2 text-[0.7rem]">
+            <p class="text-start w-3/4 pl-8">Descontos</p>
+            <p class="text-start w-1/4 pl-8">{{ call.discounts }}</p>
+          </div>
+          <div class="flex justify-around bg-secondaryDark border font-bold py-2 text-[0.7rem] text-white">
+            <p class="text-start w-3/4 pl-8">Total</p>
+            <p class="text-start w-1/4 pl-8">{{ call.price }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

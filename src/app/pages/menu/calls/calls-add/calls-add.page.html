@@ -1,0 +1,174 @@
+<app-header></app-header>
+<div #dataToExport class="hidden">
+  <app-dynamic-contract [call]="call"></app-dynamic-contract>
+</div>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6">
+    <app-sub-header title="Atendimentos"></app-sub-header>
+
+    <div class="flex flex-col items-center justify-center w-full">
+      <div class="w-full">
+        <app-custom-tabs *ngIf="callsManager[class].tabs && !budgetDetails" [items]="callsManager[class].tabs"
+          [step]="true" [stepIndex]="{
+            current: callsManager[class].selectedTab.value + 1,
+            total: callsManager[class].tabs.length
+          }" (event)="tabEvent($event.index, callsManager[class].tabs)"></app-custom-tabs>
+        <div class="round"
+          [ngClass]="class !== 'sale' || callsManager[class].selectedTab.name !== callsManager[class].tabs[4].name ? 'bg-secondaryLight pb-4' : ''">
+          <div
+            [ngClass]="(class !== 'sale' || callsManager[class].selectedTab.name !== callsManager[class].tabs[4].name) && !budgetDetails ? 'mx-4 mr-0' : ''">
+            <ng-container *ngIf="!budgetDetails">
+              <ng-container *ngIf="callsManager[class].selectedTab.name === callsManager[class].tabs[0].name">
+                <app-step1 *ngIf="!id" [call]="call" [class]="class" (addClientEvent)="addClient()"
+                  (selectEvent)="selectClient($event)"></app-step1>
+                <ng-container *ngIf="id && call">
+                  <app-step2 [call]="call"></app-step2>
+                  <app-chat *ngIf="call.client.id && !call.excludeSolicitation && class === 'budget'" [call]="call"
+                    (event)="comment($event)"></app-chat>
+                  <app-exclusion-chat *ngIf="call.excludeSolicitation && !exclusionApproval"
+                    [justifications]="call.justifications" (event)="justification($event)"></app-exclusion-chat>
+                  <app-exclusion-chat *ngIf="call.approved === 0 && !saleApproval"
+                    [justifications]="call.justificationsSale" (event)="justificationSale($event)"></app-exclusion-chat>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="callsManager[class].selectedTab.name === callsManager[class].tabs[1].name">
+                <app-step2 [call]="call"></app-step2>
+              </ng-container>
+              <ng-container *ngIf="callsManager[class].selectedTab.name === callsManager[class].tabs[2].name">
+                <app-step3 [call]="call" (addProductEvent)="addProduct($event)"
+                  (removeProductEvent)="removeProduct($event)"></app-step3>
+              </ng-container>
+              <ng-container *ngIf="class === 'sale'">
+                <ng-container *ngIf="callsManager[class].selectedTab.name === callsManager[class].tabs[3].name">
+                  <app-step4 [call]="call"></app-step4>
+                </ng-container>
+                <ng-container *ngIf="callsManager[class].selectedTab.name === callsManager[class].tabs[4].name">
+                  <app-step5 [data]="data" (adderEvent)="addFile($event)" (editerEvent)="editFile($event)"
+                    (deleterEvent)="deleteFile($event)" (statusChanger)="changeStatus($event)"></app-step5>
+                </ng-container>
+                <ng-container *ngIf="callsManager[class].selectedTab.name === callsManager[class].tabs[5].name">
+                  <app-step6 [id]="id" [call]="call" [sign]="true"></app-step6>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="class === 'budget' && budgetDetails">
+              <div class="px-4">
+                <app-budget-step1 [call]="call" *ngIf="budgetDetailsStep === 0"></app-budget-step1>
+                <app-budget-step2 [call]="call" *ngIf="budgetDetailsStep === 1"></app-budget-step2>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-center w-full my-6 gap-4">
+    <ng-container *ngIf="!id">
+      <ng-container *ngIf="budgetDetails">
+        <ng-container *ngIf="budgetDetailsStep === 0">
+          <ion-button color="primary" fill="outline" (click)="budgetDetailsback()"
+            class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+            <ion-label class="capitalize" color="primary">Voltar</ion-label>
+          </ion-button>
+          <ion-button (click)="budgetDetailsUp()" class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+            <ion-label class="capitalize" color="light"> Avançar </ion-label>
+          </ion-button>
+        </ng-container>
+        <ng-container *ngIf="budgetDetailsStep === 1">
+          <ion-button color="primary" fill="outline" (click)="budgetDetailsback()"
+            class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+            <ion-label class="capitalize" color="primary">Voltar</ion-label>
+          </ion-button>
+          <ion-button (click)="cancelBudget()" class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+            <ion-label class="capitalize" color="light">
+              Cancelar Orçamento
+            </ion-label>
+          </ion-button>
+          <ion-button (click)="couponBudget()" class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+            <ion-label class="capitalize" color="light">
+              Inserir Cupom Promocional
+            </ion-label>
+          </ion-button>
+          <ion-button (click)="sender()" class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+            <ion-label class="capitalize" color="light">
+              Enviar para cliente
+            </ion-label>
+          </ion-button>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!budgetDetails">
+        <ion-button color="primary" fill="outline"
+          (click)="goBack(callsManager[class].selectedTab.name === callsManager[class].tabs[0].name)"
+          class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+          <ion-label class="capitalize" color="primary">{{callsManager[class].selectedTab.name ===
+            callsManager[class].tabs[0].name ? 'Cancelar' :
+            'Voltar'}}</ion-label>
+        </ion-button>
+        <ion-button (click)="goUp(callsManager[class].selectedTab.name === callsManager[class].tabs[
+      callsManager[class].tabs.length - 1].name)" class="text-[0.6rem] font-bold h-[2rem] w-[15%]" expand="block">
+          <ion-label class="capitalize" color="light">
+            {{callsManager[class].selectedTab.name === callsManager[class].tabs[
+            callsManager[class].tabs.length - 1].name ? 'Finalizar' :
+            'Avançar'}}
+          </ion-label>
+        </ion-button>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="id">
+      <ng-container *ngIf="class === 'budget'">
+        <ion-button *ngIf="!call.excludeSolicitation" (click)="sendUpdate()" expand="block"
+          class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+          Enviar atualização
+        </ion-button>
+        <ng-container *ngIf="call.excludeSolicitation">
+          <ng-container *ngIf="exclusionApproval">
+            <ion-button (click)="exclusionStatus(false)" fill="outline" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-primary">
+              Rejeitar
+            </ion-button>
+            <ion-button (click)="exclusionStatus(true)" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+              Aprovar
+            </ion-button>
+          </ng-container>
+          <ng-container *ngIf="!exclusionApproval">
+            <ion-button (click)="resetExclusion()" fill="outline" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-primary">
+              Voltar ao Inicio
+            </ion-button>
+            <ion-button (click)="exclusionUpdate()" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+              Enviar Rejeição de Exclusão
+            </ion-button>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="class === 'sale'">
+        <ng-container
+          *ngIf="user.value && (user.value.level === '5' || user.value.level === '7') && (call && call.approved === 0)">
+          <ng-container *ngIf="!saleApproval">
+            <ion-button (click)="resetSale()" fill="outline" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-primary">
+              Voltar ao Inicio
+            </ion-button>
+            <ion-button (click)="saleUpdate()" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+              Enviar Rejeição da Venda
+            </ion-button>
+          </ng-container>
+          <ng-container *ngIf="saleApproval">
+            <ion-button fill="outline" (click)="rejectSale()" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-primary">
+              Recusar
+            </ion-button>
+            <ion-button (click)="approveSale()" expand="block"
+              class="text-[0.6rem] font-bold h-[2rem] w-[15%] text-white">
+              Aprovar
+            </ion-button>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ion-content>

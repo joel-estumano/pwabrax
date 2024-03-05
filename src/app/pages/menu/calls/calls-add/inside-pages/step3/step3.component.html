@@ -1,0 +1,19 @@
+<div class="w-1/2">
+  <h1 class="text-[0.9rem] font-bold pt-4">Selecionar Produtos</h1>
+  <h3 class="text-[0.6rem] mt-2">
+    Selecione os produtos de interesse do cliente. Utilize os sinais de (-) e
+    (+) para adicionar ou diminuir as quantidades ou edite o número clicando
+    diretamente nele e inserindo a quantidade desejada.
+  </h3>
+</div>
+<ng-container *ngFor="let item of products.types">
+  <app-products-showcase title="{{ item.name }}" [products]="item.data" [icon]="item.icon" [call]="call"
+    (addProduct)="addProduct($event)" (removeProduct)="removeProduct($event)"></app-products-showcase>
+</ng-container>
+<div class="flex items-center">
+  <ion-item class="w-1/2 h-full">
+    <ion-label position="stacked">Comentários</ion-label>
+    <ion-textarea placeholder="Detalhe por que este seria um possível cliente" [(ngModel)]="call.description"
+      class="min-h-[5rem]"></ion-textarea>
+  </ion-item>
+</div>

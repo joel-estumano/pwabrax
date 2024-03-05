@@ -1,0 +1,8 @@
+<app-table
+  [headers]="['Documentos', 'Situação', 'Arquivo', 'Ação']"
+  [data]="data"
+  (add)="adder($event)"
+  (edit)="editer($event)"
+  (del)="deleter($event)"
+  (clickRow)="changeStatus($event)"
+></app-table>

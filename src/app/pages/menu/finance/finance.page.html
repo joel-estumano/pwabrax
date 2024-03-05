@@ -1,0 +1,95 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6 flex flex-col justify-center">
+    <app-sub-header title="Financeiro"></app-sub-header>
+    <div class="flex items-center w-[75%]">
+      <ion-searchbar class="w-[60%]" placeholder="Digite sua busca" inputmode="text" type="text" [debounce]="300"
+        [(ngModel)]="search" (ionChange)="searching()" (ionClear)="searching(true)"></ion-searchbar>
+      <ion-button (click)="searching()" class="w-[15%]" expand="block">
+        <ion-label class="text-[0.6rem] font-bold" color="light">Buscar</ion-label>
+      </ion-button>
+    </div>
+
+    <app-custom-tabs *ngIf="user.value" class="w-full" [items]="tabs" [active]="current_tab" [filter]="true"
+      (event)="tabEvent($event.index, $event.tab)"></app-custom-tabs>
+
+    <div class="container">
+      <div class="flex items-center" *ngIf="current_tab === 'Visão Geral'">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="text-primary font-bold text-[0.9rem]">Faturas</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <!-- [scheme]="colorScheme" -->
+            <ngx-charts-pie-grid [view]="[420, 200]" [results]="invoicesCharts"> </ngx-charts-pie-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="text-primary font-bold text-[0.9rem]">Compras</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ngx-charts-advanced-pie-chart [view]="[420, 200]" [results]="purchasesCharts">
+            </ngx-charts-advanced-pie-chart>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <app-table *ngIf="financeManager.show && financeManager.pages.length > 0" [headers]="getHeaders(current_tab)"
+        [data]="financeManager.show[financeManager.currentPage] ? financeManager.show[financeManager.currentPage] : []"
+        [active]="current_tab" [total]="total" (edit)="edit($event)" (del)="del($event)" (share)="share($event)"
+        (clickHeader)="clickHeader($event)"></app-table>
+    </div>
+
+    <div class="mt-4">
+      <app-pagination *ngIf="financeManager.show && financeManager.pages.length > 1"
+        [currentPage]="financeManager.currentPage" [res]="financeManager.show" [tabs]="financeManager.pages"
+        (pageChange)="financeManager.changePage($event)"></app-pagination>
+    </div>
+    <div *ngIf="user.value" class="self-center mt-2">
+      <div *ngIf="current_tab == 'Visão Geral'">
+        <ion-button *ngIf="['5','7'].includes(user.value.level)" (click)="export_report()">
+          <ion-label class="text-white">Exportar relatórios </ion-label>
+        </ion-button>
+      </div>
+      <div *ngIf="current_tab == 'Caixa'">
+        <ion-button *ngIf="['5','6','7'].includes(user.value.level)" (click)="new_sell()">
+          <ion-label class="text-white">Nova Venda </ion-label>
+        </ion-button>
+        <ion-button *ngIf="['5','6','7'].includes(user.value.level)" (click)="redirectToCalls()">
+          <ion-label class="text-white">Venda de Serviços </ion-label>
+        </ion-button>
+        <ion-button *ngIf="['5','7'].includes(user.value.level)" (click)="move_cashier_values()">
+          <ion-label class="text-white">Fazer sangria </ion-label>
+        </ion-button>
+        <ion-button *ngIf="['5','6','7'].includes(user.value.level)" (click)="invoice_payment()">
+          <ion-label class="text-white">Pagamento de faturas </ion-label>
+        </ion-button>
+        <ion-button *ngIf="['5','7'].includes(user.value.level)" (click)="open_close_cash_register()">
+          <ion-label class="text-white">
+            Fechamento/abertura de caixa
+          </ion-label>
+        </ion-button>
+      </div>
+      <div *ngIf="current_tab == 'Contas a pagar' && filterOption == 0">
+        <ion-button *ngIf="['5','6','7'].includes(user.value.level)" (click)="new_expense()">
+          <ion-label class="text-white">Lançar despesa </ion-label>
+        </ion-button>
+      </div>
+      <div *ngIf="current_tab == 'Contas a pagar' && filterOption == 1">
+        <ion-button *ngIf="['5','6','7'].includes(user.value.level)" (click)="new_expense_phone()">
+          <ion-label class="text-white">Lançar despesa </ion-label>
+        </ion-button>
+      </div>
+      <div *ngIf="current_tab == 'Movimentações'">
+        <ion-button *ngIf="['5','7'].includes(user.value.level)" (click)="move_values()">
+          <ion-label class="text-white">Fazer sangria </ion-label>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

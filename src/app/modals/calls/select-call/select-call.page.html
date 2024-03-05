@@ -1,0 +1,32 @@
+<ion-content [fullscreen]="true">
+  <div
+    class="flex flex-col items-center justify-center w-full h-full py-4 px-14"
+  >
+    <h1 class="text-[0.9rem] font-bold w-[full] text-center">
+      Que tipo de atendimento você gostaria de iniciar?
+    </h1>
+    <div class="mt-4">
+      <ion-button
+        class="w-full text-white text-[0.7rem] font-bold"
+        (click)="budget()"
+      >
+        <ion-icon slot="start" name="document-text"></ion-icon>
+        Novo Orçamento
+      </ion-button>
+      <ion-button
+        class="w-full text-white text-[0.7rem] font-bold"
+        (click)="sale()"
+      >
+        <ion-icon slot="start" name="checkbox"></ion-icon>
+        Nova Venda
+      </ion-button>
+      <ion-button
+        class="w-full text-white text-[0.7rem] font-bold"
+        (click)="support()"
+      >
+        <ion-icon slot="start" name="chatbubble-ellipses"></ion-icon>
+        Novo Suporte
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

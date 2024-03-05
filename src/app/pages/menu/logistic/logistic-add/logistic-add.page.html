@@ -1,0 +1,245 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6">
+    <app-sub-header title="Logística"></app-sub-header>
+    <div class="flex flex-col items-center justify-center w-full mt-6">
+      <div class="w-full">
+        <div class="round bg-secondaryLight pb-4">
+          <div class="mx-4 mr-0">
+            <div class="w-1/2">
+              <h1 class="text-[0.9rem] font-bold pt-4">Detalhes do Produto</h1>
+            </div>
+            <h3 class="font-bold text-[0.7rem] mt-4 mb-[-1rem]">Envio</h3>
+            <div class="flex items-center w-full min-h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Status</ion-label>
+                <ion-select cancelText="Cancelar" okText="Confirmar" class="w-full" placeholder="Alterar Status"
+                  [(ngModel)]="logistic.status" [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado">
+                  <ng-container *ngFor="let item of stockClass.status">
+                    <ng-container *ngIf="item !== stockClass.STATUS.Servico_Cancelado">
+                      <ion-select-option [value]="item">{{ item }}</ion-select-option></ng-container>
+                  </ng-container>
+                </ion-select>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Código de Rastreio</ion-label>
+                <ion-input type="text" placeholder="Informe o Código de Rastreio" [(ngModel)]="logistic.code"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Quantidade</ion-label>
+                <ion-input type="number" placeholder="Informe a Quantidade" [(ngModel)]="logistic.qtd"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+                <!-- <ion-select
+                  cancelText="Cancelar"
+                  okText="Confirmar"
+                  [(ngModel)]="logistic.qtd"
+                  (ionChange)="onQuantidadeChange()"
+                  class="w-full"
+                  placeholder="Selecione a Quantidade"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"
+                >
+                  <ng-container
+                    *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+                  >
+                    <ion-select-option [value]="item"
+                      >{{ item }}
+                    </ion-select-option>
+                  </ng-container>
+                </ion-select> -->
+              </ion-item>
+            </div>
+
+            <ng-container *ngFor="let product of logistic.products; let i = index">
+              <h3 class="font-bold text-[0.7rem] mt-4 mb-[-1rem]">
+                Produto {{ i + 1 }}
+              </h3>
+              <div class="flex items-center w-full min-h-14">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Categoria</ion-label>
+                  <ion-select cancelText="Cancelar" okText="Confirmar" [(ngModel)]="product.category" class="w-full"
+                    placeholder="Selecione uma Categoria"
+                    [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado">
+                    <ng-container *ngFor="let item of categoriesClass.value">
+                      <ion-select-option value="{{ item.name }}">{{ item.name }}</ion-select-option></ng-container>
+                  </ion-select>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Operadora</ion-label>
+                  <ion-select cancelText="Cancelar" okText="Confirmar" [(ngModel)]="product.operator" class="w-full"
+                    placeholder="Selecione uma Operadora"
+                    [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado">
+                    <ng-container *ngFor="let item of operatorClass.value">
+                      <ion-select-option value="{{ item.name }}">{{ item.name }}</ion-select-option></ng-container>
+                  </ion-select>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Número da Linha</ion-label>
+                  <ion-input placeholder="Informe o Número da Linha" [(ngModel)]="product.lineNumber"
+                    [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"
+                    [readonly]="['5','7'].includes(user?.value.level)" type="tel" maxlength="15" mask="(**) *****-****"
+                    (keypress)="onlyNumber($event)"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">ICCID</ion-label>
+                  <ion-input type="text" placeholder="Informe o ICCID" [(ngModel)]="product.iccid"
+                    [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado" maxlength="15"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Nota</ion-label>
+                  <ion-input type="text" placeholder="Informe a Nota" [(ngModel)]="product.note"
+                    [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+                </ion-item>
+              </div>
+            </ng-container>
+
+            <div *ngIf="logistic.status === stockClass.STATUS.Vendido">
+              <h3 class="font-bold text-[0.7rem] mt-4 mb-[-1rem]">Venda</h3>
+              <div class="flex items-center w-full min-h-14">
+                <app-date-picker class="w-full" label="Data" type="date-time" [date]="logistic.created_at"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></app-date-picker>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Vendedor</ion-label>
+                  <ion-input type="text" placeholder="Informe o Vendedor" [(ngModel)]="logistic.seller"
+                    [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Valor R$</ion-label>
+                  <ion-input type="text" placeholder="Informe o Valor" [(ngModel)]="logistic.cost"
+                    [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+                </ion-item>
+              </div>
+              <div class="flex items-center w-full min-h-14">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Forma de Envio</ion-label>
+                  <ion-input type="text" placeholder="Informe a Forma de Envio"
+                    [(ngModel)]="logistic.shipping_method"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Valor da Venda R$</ion-label>
+                  <ion-input type="text" placeholder="Informe o Valor da Venda" [(ngModel)]="logistic.sale_value"
+                    *ngIf="logistic.status === stockClass.STATUS.Vendido"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Desconto R$</ion-label>
+                  <ion-input type="text" placeholder="Informe o Desconto" [(ngModel)]="logistic.discount"
+                    *ngIf="logistic.status === stockClass.STATUS.Vendido"></ion-input>
+                </ion-item>
+              </div>
+              <div class="flex items-center w-full min-h-14">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Valor do Envio R$</ion-label>
+                  <ion-input type="text" placeholder="Informe o Valor do Envio" [(ngModel)]="logistic.shipping_value"
+                    *ngIf="logistic.status === stockClass.STATUS.Vendido"></ion-input>
+                </ion-item>
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Valor do Desconto do Envio R$</ion-label>
+                  <ion-input type="text" placeholder="Informe o Valor do Desconto do Envio"
+                    [(ngModel)]="logistic.shipping_discount"
+                    *ngIf="logistic.status === stockClass.STATUS.Vendido"></ion-input>
+                </ion-item>
+              </div>
+              <div class="flex items-center w-full min-h-14">
+                <ion-item class="w-full" lines="none">
+                  <ion-label position="stacked">Forma de Pagamento</ion-label>
+                  <ion-select cancelText="Cancelar" okText="Confirmar" [(ngModel)]="logistic.payment_method"
+                    class="w-full" placeholder="Selecione um método de Pagamento">
+                    <ng-container>
+                      <ng-container *ngFor="let item of payments.value">
+                        <ion-select-option value="{{ item.title }}">
+                          {{ item.title }}
+                        </ion-select-option>
+                      </ng-container>
+                    </ng-container>
+                  </ion-select>
+                </ion-item>
+              </div>
+            </div>
+
+            <h3 class="font-bold text-[0.7rem] mt-4 mb-[-1rem]">
+              Destinatário
+            </h3>
+            <div class="flex items-center w-full min-h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Nome</ion-label>
+                <ion-input type="text" placeholder="Informe o Nome" [(ngModel)]="logistic.name"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">CPF</ion-label>
+                <ion-input type="text" placeholder="Informe o CPF" [(ngModel)]="logistic.cpf"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado" type="text" maxlength="14"
+                  mask="***.***.***-**" (keypress)="onlyNumber($event)"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Telefone</ion-label>
+                <ion-input placeholder="Informe o Telefone" [(ngModel)]="logistic.cellphone"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado" type="tel"
+                  placeholder="Informe o telefone com DDD" maxlength="15" mask="(**) *****-****"
+                  (keypress)="onlyNumber($event)"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Cidade</ion-label>
+                <ion-input type="text" [(ngModel)]="logistic.city"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado" placeholder="Selecione a Cidade"
+                  (keypress)="onlyText($event)"></ion-input>
+              </ion-item>
+            </div>
+            <div class="flex items-center w-full min-h-14">
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">UF</ion-label>
+                <ion-input type="text" [(ngModel)]="logistic.uf"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado" placeholder="Selecione a UF"
+                  maxlength="2" (keypress)="onlyText($event)"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">CEP</ion-label>
+                <ion-input type="text" placeholder="Informe o CEP" [(ngModel)]="logistic.cep"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado" maxlength="9" mask="*****-***"
+                  (keypress)="onlyNumber($event)"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Logradouro</ion-label>
+                <ion-input type="text" placeholder="Informe o Logradouro" [(ngModel)]="logistic.address"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Número</ion-label>
+                <ion-input type="text" placeholder="Informe o Número" [(ngModel)]="logistic.number"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado" placeholder="Informe o número"
+                  maxlength="7" (keypress)="onlyNumber($event)"></ion-input>
+              </ion-item>
+              <ion-item class="w-full" lines="none">
+                <ion-label position="stacked">Complemento</ion-label>
+                <ion-input type="text" placeholder="Informe o Complemento" [(ngModel)]="logistic.complement"
+                  [disabled]="logistic.status === stockClass.STATUS.Servico_Cancelado"></ion-input>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center w-full mt-4 gap-2">
+          <ion-button class="text-[0.6rem] mt-2 font-bold h-[2rem] w-[15%]" expand="block" (click)="back()">
+            <ion-label class="capitalize" color="light">Voltar</ion-label>
+          </ion-button>
+          <ion-button *ngIf="logistic.status === stockClass.STATUS.Servico_Cancelado"
+            class="text-[0.6rem] mt-2 font-bold h-[2rem] w-[15%]" expand="block" (click)="recoverLine()">
+            <ion-label class="capitalize" color="light">Recuperar Linha</ion-label>
+          </ion-button>
+          <ng-container *ngIf="logistic.status !== stockClass.STATUS.Servico_Cancelado">
+            <ion-button class="text-[0.6rem] mt-2 font-bold h-[2rem] w-[15%]" expand="block" (click)="cancelLine()">
+              <ion-label class="capitalize" color="light">Cancelar Linha</ion-label>
+            </ion-button>
+            <ion-button class="text-[0.6rem] mt-2 font-bold h-[2rem] w-[15%]" expand="block" (click)="distribution()">
+              <ion-label class="capitalize" color="light">Devolução</ion-label>
+            </ion-button>
+            <ion-button class="text-[0.6rem] mt-2 font-bold h-[2rem] w-[15%]" expand="block" (click)="save()">
+              <ion-label class="capitalize" color="light">Salvar</ion-label>
+            </ion-button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

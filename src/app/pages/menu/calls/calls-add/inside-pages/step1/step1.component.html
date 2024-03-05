@@ -1,0 +1,54 @@
+<div class="w-1/2">
+  <h1 class="text-[0.9rem] font-bold pt-4">
+    Orçamento {{ call ? call.id : "" }}
+  </h1>
+  <h3 class="text-[0.6rem] mt-2">
+    Selecione um cliente já cadastrado na lista suspensa abaixo ou cadastre um
+    novo para seguir com a prospecção.
+  </h3>
+</div>
+<div class="flex items-center w-full min-h-14">
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Cliente</ion-label>
+    <ion-select
+      cancelText="Cancelar"
+      okText="Confirmar"
+      [value]="
+        user.value && user.value.nome === '1' ? user.value.id : call.client.id
+      "
+      (ionChange)="select($event)"
+      class="w-full"
+      placeholder="Selecione um cliente"
+    >
+      <ng-container *ngIf="user.levels[0].data.length > 0">
+        <ng-container *ngFor="let item of user.levels[0].data">
+          <ion-select-option value="{{ item.id }}">{{
+            item.nome
+          }}</ion-select-option></ng-container
+        >
+      </ng-container>
+    </ion-select>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Código</ion-label>
+    <ion-input
+      [(ngModel)]="call.client_id"
+      type="text"
+      placeholder="Informe o cliente para completar o código"
+      (ionChange)="findClient()"
+    ></ion-input>
+  </ion-item>
+</div>
+<div class="flex items-center justify-center w-full my-6">
+  <p class="font-bold text-[0.9rem] text-center m-0 leading-[0rem]">ou</p>
+</div>
+<div class="flex items-center w-full justify-center h-full">
+  <ion-button
+    [disabled]="call.client_id !== ''"
+    class="text-white m-0 p-0 text-[0.6rem] font-bold max-w-[30%] w-full"
+    (click)="addClient()"
+  >
+    <ion-icon slot="start" name="person-add-outline"></ion-icon>
+    Cadastrar novo cliente
+  </ion-button>
+</div>

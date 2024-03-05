@@ -1,0 +1,28 @@
+<div>
+  <div class="flex justify-between w-full mt-4">
+    <div>
+      <p class="font-bold text-[1.1rem]">{{ title ? title : page }}</p>
+    </div>
+    <div>
+      <p class="text-[0.75rem]">{{ date.fullDate() }}</p>
+    </div>
+  </div>
+  <div *ngIf="page.toLowerCase() !== 'home'" class="flex">
+    <ion-breadcrumbs>
+      <ng-container *ngIf="breadcrumbs.breadcrumbs">
+        <ng-container *ngFor="let item of breadcrumbs.breadcrumbs">
+          <ion-breadcrumb
+            class="text-primary text-[0.7rem] font-[800]"
+            [href]="item.path"
+            >{{ item.name }}
+            <ion-icon
+              class="text-[0.8rem] text-primary font-[800]"
+              slot="separator"
+              name="chevron-forward"
+            ></ion-icon>
+          </ion-breadcrumb>
+        </ng-container>
+      </ng-container>
+    </ion-breadcrumbs>
+  </div>
+</div>

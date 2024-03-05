@@ -1,0 +1,33 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="px-6 flex flex-col justify-center">
+    <app-sub-header title="A receber"></app-sub-header>
+    <!-- <div class="flex items-center w-[75%]">
+      <ion-searchbar class="w-[60%]" placeholder="Digite sua busca" inputmode="text" type="text" [debounce]="300"
+        [(ngModel)]="search" (ionChange)="searching()" (ionClear)="searching(true)"></ion-searchbar>
+      <ion-button (click)="searching()" class="w-[15%]" expand="block">
+        <ion-label class="text-[0.6rem] font-bold" color="light">
+          Buscar
+        </ion-label>
+      </ion-button>
+    </div> -->
+
+    <app-custom-tabs *ngIf="user.value" class="w-full" [items]="tabs" [filter]="true"
+      (event)="tabEvent($event)" (filterChoose)="onFilterChoose($event)"></app-custom-tabs>
+
+    <app-table *ngIf="receivements.show && receivements.pages.length > 0" [headers]="receivements.headers"
+      [data]="receivements.show[receivements.currentPage] ? receivements.show[receivements.currentPage] : []"
+      (download)="download($event)"></app-table>
+    <div class="mt-4">
+      <app-pagination *ngIf="receivements.show && receivements.pages.length > 1"
+        [currentPage]="receivements.currentPage" [res]="receivements.show" [tabs]="receivements.pages"
+        (pageChange)="receivements.changePage($event)"></app-pagination>
+    </div>
+    <div class="self-center mt-2">
+      <ion-button (click)="new_receivement()">
+        <ion-label class="text-white">Lançar cobrança</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

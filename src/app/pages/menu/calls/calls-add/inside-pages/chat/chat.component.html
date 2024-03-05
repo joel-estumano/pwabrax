@@ -1,0 +1,45 @@
+<div
+  *ngIf="user && user.value && user.value.level === '7'"
+  class="flex flex-col w-full mt-8"
+>
+  <div class="border-b">
+    <p class="text-[0.8rem]">Histórico de Atendimento</p>
+  </div>
+  <div>
+    <ion-item class="w-full h-full">
+      <ion-label position="stacked">Comentário</ion-label>
+      <ion-textarea
+        placeholder="Escreva seu comentário sobre o atendimento prestado."
+        class="min-h-[6rem]"
+        [(ngModel)]="comment"
+      ></ion-textarea>
+    </ion-item>
+    <ion-button class="mt-4" (click)="send()" expand="block" fill="clear">
+      Comentar
+    </ion-button>
+  </div>
+  <div
+    *ngIf="call && call.comments && call.comments.length > 0"
+    class="flex flex-col items-start justify-start mt-4"
+  >
+    <p class="text-start text-[0.7rem] mb-4">Anteriores</p>
+    <ng-container *ngFor="let item of call.comments; let i = index">
+      <div class="flex justify-between w-full items-start">
+        <div class="flex flex-col mx-2 mb-4 gap-2 text-[0.7rem]">
+          <p>
+            {{ item.text }}
+          </p>
+          <p class="font-bold">{{ item.user.nome }}</p>
+        </div>
+        <ion-button
+          *ngIf="item.isNew"
+          color="dark"
+          fill="clear"
+          (click)="del(i)"
+        >
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ng-container>
+  </div>
+</div>

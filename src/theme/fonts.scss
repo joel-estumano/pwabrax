@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "open_bold";
+  src: url("./../assets/fonts/OpenSans-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "open_light";
+  src: url("./../assets/fonts/OpenSans-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "open_medium";
+  src: url("./../assets/fonts/OpenSans-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "open_Italic";
+  src: url("./../assets/fonts/OpenSans-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+//Setting Default Font
+:root,
+:root[mode="ios"],
+:root[mode="md"] {
+  --ion-font-family: "open_medium";
+  font-family: "open_medium";
+}

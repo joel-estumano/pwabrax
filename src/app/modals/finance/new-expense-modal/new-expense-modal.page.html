@@ -1,0 +1,142 @@
+<ion-content [fullscreen]="true">
+  <div class="flex flex-col items-center justify-center w-full h-full py-[3rem] px-4 gap-4 overflow-y-auto">
+    <h1 class="text-[0.9rem] font-bold w-full text-center">Lançar despesa</h1>
+
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Portador*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" (ionChange)="select_supplier($event)" class="w-full"
+          placeholder="Selecione um portador">
+          <ng-container *ngFor="let item of suppliers">
+            <ion-select-option value="{{item.id}}">
+              {{item.nome}}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Venc. original</ion-label>
+        <ion-input [formControl]="$any(form).get('original_due_date')" type="email" placeholder="00/00/00"
+          (click)="pickOriginalDueDate()" readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="original_due_date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openOriginalDueDate" (didDismiss)="pickOriginalDueDate()">
+        <ng-template>
+          <ion-datetime id="original_due_date" presentation="original_due_date" (ionChange)="setOriginalDueDate($event)"
+            [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Vencimento*</ion-label>
+        <ion-input [formControl]="$any(form).get('due_date')" type="email" placeholder="00/00/00"
+          (click)="pickDueDate()" required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="due_date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openDueDate" (didDismiss)="pickDueDate()">
+        <ng-template>
+          <ion-datetime id="due_date" presentation="due_date" (ionChange)="setDueDate($event)"
+            [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Valor*</ion-label>
+        <ion-input [formControl]="$any(form).get('value')" type="number" placeholder="0,00" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full h-16">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Data de emissão*</ion-label>
+        <ion-input [formControl]="$any(form).get('issue_date')" type="email" placeholder="00/00/00"
+          (click)="pickIssueDate()" required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="issue_date"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openIssueDate" (didDismiss)="pickIssueDate()">
+        <ng-template>
+          <ion-datetime id="issue_date" presentation="issue_date" (ionChange)="setIssueDate($event)"
+            [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">N° documento</ion-label>
+        <ion-input [formControl]="$any(form).get('document')" type="text" placeholder="012345678910"></ion-input>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Competência*</ion-label>
+        <ion-input [formControl]="$any(form).get('period')" type="email" placeholder="00/00/00" (click)="pickPeriod()"
+          required readonly></ion-input>
+      </ion-item>
+      <ion-datetime-button class="hidden" datetime="period"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true" [isOpen]="openPeriod" (didDismiss)="pickPeriod()">
+        <ng-template>
+          <ion-datetime id="period" presentation="period" (ionChange)="setPeriod($event)" [showDefaultButtons]="true"
+            doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </div>
+    <div class="flex items-center w-full h-15">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Histórico*</ion-label>
+        <ion-textarea placeholder="Informe o histórico" class="min-h-[4rem]"
+          [formControl]="$any(form).get('history')"></ion-textarea>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Forma de Pagamento*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('payment_method')"
+          class="w-full" placeholder="Selecione" required>
+          <ng-container>
+            <ng-container *ngFor="let item of payments.value">
+              <ion-select-option value="{{ item.title }}">
+                {{ item.title }}
+              </ion-select-option>
+            </ng-container>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Portador*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" *ngIf="responsibles.length > 0"
+          (ionChange)="select_responsible($event)" class="w-full" placeholder="Selecione um portador">
+          <ng-container *ngFor="let item of responsibles">
+            <ion-select-option value="{{item.id}}">
+              {{item.nome}}
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Categoria*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('category')" class="w-full"
+          placeholder="Selecione" required>
+          <ng-container *ngFor="let item of categories.value">
+            <ion-select-option value="{{ item.name }}">
+              {{ item.name }}</ion-select-option></ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="flex items-center w-full">
+      <ion-item class="w-full" lines="none">
+        <ion-label position="stacked">Ocorrência*</ion-label>
+        <ion-select cancelText="Cancelar" okText="Confirmar" [formControl]="$any(form).get('occurence')" class="w-full"
+          placeholder="Selecione" required>
+          <ng-container>
+            <ion-select-option value="ÚNICA">Única</ion-select-option>
+            <ion-select-option value="RECORRENTE">Recorrente</ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-4">
+      <ion-button class="text-[0.8rem] font-bold h-[2rem] w-[20%]" expand="block" fill="outline" (click)="dismiss()">
+        <ion-label class="capitalize" color="primary">Cancelar</ion-label>
+      </ion-button>
+      <ion-button class="text-[0.8rem] font-bold h-[2rem] w-[20%]" expand="block" (click)="save()">
+        <ion-label class="capitalize" color="light">Lançar</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

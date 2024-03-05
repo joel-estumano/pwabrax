@@ -1,0 +1,17 @@
+tbody {
+    tr {
+        cursor: pointer;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+
+    tr:hover {
+        background-color: #c1c1c1;
+    }
+
+    tr.bg-selected {
+        background-color: #ffd8ae !important;
+    }
+}

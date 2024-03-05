@@ -1,0 +1,30 @@
+ion-item {
+  --background: transparent !important;
+  --padding-start: 0 !important;
+  --padding-end: 0 !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+
+  ion-label {
+    font-size: 0.8rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+ion-input,
+ion-select {
+  background: white;
+  --background: white;
+  border: 1px solid var(--ion-color-tertiary);
+  border-radius: 4px;
+  padding: 0 0.75rem !important;
+  --placeholder-color: #b1b1b1;
+  font-size: 0.7rem;
+  --padding-top: 0.2rem !important;
+  --padding-bottom: 0.2rem !important;
+}
+
+ion-select {
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+}

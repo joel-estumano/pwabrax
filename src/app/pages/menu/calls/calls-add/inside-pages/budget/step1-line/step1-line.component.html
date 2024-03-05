@@ -1,0 +1,28 @@
+<div class="flex items-center w-full h-16 mb-6">
+  <ion-item class="w-full ml-3" lines="none">
+    <ion-label position="stacked">Linha {{ index }}</ion-label>
+    <ion-input
+      type="tel"
+      placeholder="Selecione o número da Linha"
+      [(ngModel)]="product.line"
+      maxlength="15"
+      mask="(**) *****-****"
+    ></ion-input>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">ICCID</ion-label>
+    <ion-input
+      type="number"
+      placeholder="Informe o ICCID"
+      [(ngModel)]="product.iccid"
+    ></ion-input>
+  </ion-item>
+  <ion-item class="w-full" lines="none">
+    <ion-label position="stacked">Possuí Cupom?</ion-label>
+    <ion-input
+      type="text"
+      placeholder="Informe o cupom promocional"
+      [(ngModel)]="product.coupon"
+    ></ion-input>
+  </ion-item>
+</div>
